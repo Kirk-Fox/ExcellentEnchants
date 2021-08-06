@@ -7,8 +7,8 @@ import su.nightexpress.excellentenchants.ExcellentEnchants;
 import su.nightexpress.excellentenchants.api.enchantment.IEnchantCombatPotionTemplate;
 
 public class EnchantBlindness extends IEnchantCombatPotionTemplate {
-	
-	public EnchantBlindness(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-		super(plugin, cfg, PotionEffectType.BLINDNESS);
-	}
+
+    public EnchantBlindness(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
+        super(plugin, cfg, PotionEffectType.BLINDNESS);
+    }
 }

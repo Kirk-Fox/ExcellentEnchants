@@ -12,21 +12,20 @@ import su.nightexpress.excellentenchants.api.enchantment.IEnchantCombatPotionTem
 import su.nightexpress.excellentenchants.manager.EnchantManager;
 
 public class EnchantParalyze extends IEnchantCombatPotionTemplate {
-	
-	public EnchantParalyze(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-		super(plugin, cfg, PotionEffectType.SLOW_DIGGING);
-	}
 
-	@Override
-	public boolean use(@NotNull EntityDamageByEntityEvent e, @NotNull LivingEntity damager,
-					   @NotNull LivingEntity victim, @NotNull ItemStack weapon, int level) {
-		
-		if (!super.use(e, damager, victim, weapon, level)) return false;
-		
-		int eDuration = this.getEffectDuration(level);
-		int eLvl = this.getEffectLevel(level);
-		PotionEffect slow = new PotionEffect(PotionEffectType.SLOW, eDuration, eLvl);
-		EnchantManager.addPotionEffect(victim, slow, true);
-		return true;
-	}
+    public EnchantParalyze(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
+        super(plugin, cfg, PotionEffectType.SLOW_DIGGING);
+    }
+
+    @Override
+    public boolean use(@NotNull EntityDamageByEntityEvent e, @NotNull LivingEntity damager, @NotNull LivingEntity victim, @NotNull ItemStack weapon, int level) {
+
+        if (!super.use(e, damager, victim, weapon, level)) return false;
+
+        int eDuration = this.getEffectDuration(level);
+        int eLvl = this.getEffectLevel(level);
+        PotionEffect slow = new PotionEffect(PotionEffectType.SLOW, eDuration, eLvl);
+        EnchantManager.addPotionEffect(victim, slow, true);
+        return true;
+    }
 }

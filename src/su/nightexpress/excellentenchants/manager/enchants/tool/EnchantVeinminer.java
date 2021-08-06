@@ -25,11 +25,9 @@ import java.util.stream.Collectors;
 
 public class EnchantVeinminer extends ExcellentEnchant implements BlockEnchant {
 
-    public static final String ID = "veinminer";
-    private static final String META_ORE_MINED = ID + "_mined";
-    private static final BlockFace[] AREA = {
-            BlockFace.UP, BlockFace.DOWN, BlockFace.EAST,
-            BlockFace.WEST, BlockFace.SOUTH, BlockFace.NORTH};
+    public static final  String      ID             = "veinminer";
+    private static final String      META_ORE_MINED = ID + "_mined";
+    private static final BlockFace[] AREA           = {BlockFace.UP, BlockFace.DOWN, BlockFace.EAST, BlockFace.WEST, BlockFace.SOUTH, BlockFace.NORTH};
 
     private final EnchantScaler blocksLimit;
     private final Set<Material> blocksAffected;
@@ -38,8 +36,7 @@ public class EnchantVeinminer extends ExcellentEnchant implements BlockEnchant {
         super(plugin, cfg);
 
         this.blocksLimit = new EnchantScaler(this, "Settings.Blocks.Max_At_Once");
-        this.blocksAffected = cfg.getStringSet("Settings.Blocks.Affected").stream()
-                .map(type -> Material.getMaterial(type.toUpperCase())).filter(Objects::nonNull).collect(Collectors.toSet());
+        this.blocksAffected = cfg.getStringSet("Settings.Blocks.Affected").stream().map(type -> Material.getMaterial(type.toUpperCase())).filter(Objects::nonNull).collect(Collectors.toSet());
     }
 
     @Override
@@ -61,9 +58,7 @@ public class EnchantVeinminer extends ExcellentEnchant implements BlockEnchant {
     @Override
     @NotNull
     public UnaryOperator<String> replacePlaceholders(int level) {
-        return str -> super.replacePlaceholders(level).apply(str
-                .replace("%blocks_amount%", String.valueOf(this.getBlocksLimit(level)))
-        );
+        return str -> super.replacePlaceholders(level).apply(str.replace("%blocks_amount%", String.valueOf(this.getBlocksLimit(level))));
     }
 
     private void vein(@NotNull Player player, @NotNull Block source, int level) {

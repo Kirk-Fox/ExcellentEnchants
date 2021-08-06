@@ -7,5 +7,5 @@ import org.jetbrains.annotations.NotNull;
 
 public interface BlockEnchant {
 
-	boolean use(@NotNull BlockBreakEvent e, @NotNull Player player, @NotNull ItemStack item, int level);
+    boolean use(@NotNull BlockBreakEvent e, @NotNull Player player, @NotNull ItemStack item, int level);
 }

@@ -16,46 +16,46 @@ import su.nightexpress.excellentenchants.config.Config;
 import java.util.*;
 
 public class PassiveEnchantsTask extends ITask<ExcellentEnchants> {
-	
-	public PassiveEnchantsTask(@NotNull ExcellentEnchants plugin) {
-		super(plugin, Config.TASKS_PASSIVE_ENCHANTS_TICKS_INTERVAL, false);
-	}
-	
+
+    public PassiveEnchantsTask(@NotNull ExcellentEnchants plugin) {
+        super(plugin, Config.TASKS_PASSIVE_ENCHANTS_TICKS_INTERVAL, false);
+    }
+
     @Override
-	public void action() {
-    	for (LivingEntity entity : this.getEntities()) {
+    public void action() {
+        for (LivingEntity entity : this.getEntities()) {
 
-			List<ItemStack> list = new ArrayList<>(Arrays.asList(EntityUT.getArmor(entity)));
-			EntityEquipment equipment = entity.getEquipment();
-			if (equipment != null && !ItemUT.isArmor(equipment.getItemInMainHand())) {
-				list.add(equipment.getItemInMainHand());
-			}
+            List<ItemStack> list = new ArrayList<>(Arrays.asList(EntityUT.getArmor(entity)));
+            EntityEquipment equipment = entity.getEquipment();
+            if (equipment != null && !ItemUT.isArmor(equipment.getItemInMainHand())) {
+                list.add(equipment.getItemInMainHand());
+            }
 
-    		for (ItemStack armor : list) {
-    			if (armor == null || armor.getType() == Material.ENCHANTED_BOOK) continue;
-    			
-    			ItemMeta meta = armor.getItemMeta();
-    			if (meta == null) continue;
-    			
-    			meta.getEnchants().forEach((en, lvl) -> {
-    				if (lvl < 1) return;
-    				if (!(en instanceof PassiveEnchant passiveEnchant)) return;
+            for (ItemStack armor : list) {
+                if (armor == null || armor.getType() == Material.ENCHANTED_BOOK) continue;
 
-					passiveEnchant.use(entity, lvl);
-    			});
-    		}
+                ItemMeta meta = armor.getItemMeta();
+                if (meta == null) continue;
+
+                meta.getEnchants().forEach((en, lvl) -> {
+                    if (lvl < 1) return;
+                    if (!(en instanceof PassiveEnchant passiveEnchant)) return;
+
+                    passiveEnchant.use(entity, lvl);
+                });
+            }
         }
     }
-    
+
     @NotNull
     private Collection<@NotNull ? extends LivingEntity> getEntities() {
-    	Set<LivingEntity> list = new HashSet<>(plugin.getServer().getOnlinePlayers());
-    	
-    	if (Config.ENCHANTMENTS_ENTITY_PASSIVE_FOR_MOBS) {
-    		plugin.getServer().getWorlds().forEach(world -> {
-    			list.addAll(world.getEntitiesByClass(LivingEntity.class));
-    		});
-    	}
-    	return list;
+        Set<LivingEntity> list = new HashSet<>(plugin.getServer().getOnlinePlayers());
+
+        if (Config.ENCHANTMENTS_ENTITY_PASSIVE_FOR_MOBS) {
+            plugin.getServer().getWorlds().forEach(world -> {
+                list.addAll(world.getEntitiesByClass(LivingEntity.class));
+            });
+        }
+        return list;
     }
 }

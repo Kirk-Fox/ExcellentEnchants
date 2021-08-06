@@ -15,52 +15,49 @@ import su.nightexpress.excellentenchants.manager.object.EnchantScaler;
 import java.util.function.UnaryOperator;
 
 public class EnchantSaturation extends IEnchantChanceTemplate implements PassiveEnchant {
-	
-	private final Scaler saturationAmount;
-	
-	public EnchantSaturation(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-		super(plugin, cfg);
-		
-		this.saturationAmount = new EnchantScaler(this, "Settings.Saturation.Amount");
-	}
 
-	@Override
-	protected void updateConfig() {
-		super.updateConfig();
+    private final Scaler saturationAmount;
 
-		if (cfg.contains("settings.saturation-amount")) {
-			String amount = cfg.getString("settings.saturation-amount", "")
-					.replace("%level%", PLACEHOLDER_LEVEL);
+    public EnchantSaturation(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
+        super(plugin, cfg);
 
-			cfg.set("Settings.Saturation.Amount", amount);
-			cfg.set("settings.saturation-amount", null);
-		}
-	}
+        this.saturationAmount = new EnchantScaler(this, "Settings.Saturation.Amount");
+    }
 
-	@Override
-	public @NotNull UnaryOperator<String> replacePlaceholders(int level) {
-		return str -> super.replacePlaceholders(level).apply(str
-			.replace("%amount%", NumberUT.format(this.getSaturationAmount(level)))
-		);
-	}
+    @Override
+    protected void updateConfig() {
+        super.updateConfig();
 
-	@Override
-	@NotNull
-	public EnchantmentTarget getItemTarget() {
-		return EnchantmentTarget.ARMOR;
-	}
-	
-	public final double getSaturationAmount(int level) {
-		return this.saturationAmount.getValue(level);
-	}
-	
-	@Override
-	public boolean use(@NotNull LivingEntity entity, int level) {
-		if (!(entity instanceof Player player)) return false;
-		if (!this.checkTriggerChance(level)) return false;
+        if (cfg.contains("settings.saturation-amount")) {
+            String amount = cfg.getString("settings.saturation-amount", "").replace("%level%", PLACEHOLDER_LEVEL);
 
-		int amount = (int) this.getSaturationAmount(level);
-		player.setFoodLevel(Math.min(20, player.getFoodLevel() + amount));
-		return true;
-	}
+            cfg.set("Settings.Saturation.Amount", amount);
+            cfg.set("settings.saturation-amount", null);
+        }
+    }
+
+    @Override
+    public @NotNull UnaryOperator<String> replacePlaceholders(int level) {
+        return str -> super.replacePlaceholders(level).apply(str.replace("%amount%", NumberUT.format(this.getSaturationAmount(level))));
+    }
+
+    @Override
+    @NotNull
+    public EnchantmentTarget getItemTarget() {
+        return EnchantmentTarget.ARMOR;
+    }
+
+    public final double getSaturationAmount(int level) {
+        return this.saturationAmount.getValue(level);
+    }
+
+    @Override
+    public boolean use(@NotNull LivingEntity entity, int level) {
+        if (!(entity instanceof Player player)) return false;
+        if (!this.checkTriggerChance(level)) return false;
+
+        int amount = (int) this.getSaturationAmount(level);
+        player.setFoodLevel(Math.min(20, player.getFoodLevel() + amount));
+        return true;
+    }
 }

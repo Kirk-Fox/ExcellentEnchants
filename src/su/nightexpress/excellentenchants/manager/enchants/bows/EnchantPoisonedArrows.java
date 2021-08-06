@@ -7,8 +7,8 @@ import su.nightexpress.excellentenchants.ExcellentEnchants;
 import su.nightexpress.excellentenchants.api.enchantment.IEnchantBowHitPotionTemplate;
 
 public class EnchantPoisonedArrows extends IEnchantBowHitPotionTemplate {
-	
-	public EnchantPoisonedArrows(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-		super(plugin, cfg, PotionEffectType.POISON);
-	}
+
+    public EnchantPoisonedArrows(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
+        super(plugin, cfg, PotionEffectType.POISON);
+    }
 }

@@ -7,8 +7,8 @@ import su.nightexpress.excellentenchants.ExcellentEnchants;
 import su.nightexpress.excellentenchants.api.enchantment.IEnchantCombatPotionTemplate;
 
 public class EnchantWither extends IEnchantCombatPotionTemplate {
-	
-	public EnchantWither(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-		super(plugin, cfg, PotionEffectType.WITHER);
-	}
+
+    public EnchantWither(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
+        super(plugin, cfg, PotionEffectType.WITHER);
+    }
 }

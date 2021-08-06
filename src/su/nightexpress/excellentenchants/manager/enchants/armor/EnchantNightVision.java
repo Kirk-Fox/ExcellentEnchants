@@ -10,21 +10,21 @@ import su.nightexpress.excellentenchants.api.enchantment.IEnchantPotionTemplate;
 import su.nightexpress.excellentenchants.api.enchantment.type.PassiveEnchant;
 
 public class EnchantNightVision extends IEnchantPotionTemplate implements PassiveEnchant {
-	
-	public EnchantNightVision(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-		super(plugin, cfg, PotionEffectType.NIGHT_VISION);
-	}
 
-	@Override
-	@NotNull
-	public EnchantmentTarget getItemTarget() {
-		return EnchantmentTarget.ARMOR_HEAD;
-	}
+    public EnchantNightVision(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
+        super(plugin, cfg, PotionEffectType.NIGHT_VISION);
+    }
 
-	@Override
-	public boolean use(@NotNull LivingEntity entity, int level) {
-		if (!this.checkTriggerChance(level)) return false;
+    @Override
+    @NotNull
+    public EnchantmentTarget getItemTarget() {
+        return EnchantmentTarget.ARMOR_HEAD;
+    }
 
-		return this.addEffect(entity, level);
-	}
+    @Override
+    public boolean use(@NotNull LivingEntity entity, int level) {
+        if (!this.checkTriggerChance(level)) return false;
+
+        return this.addEffect(entity, level);
+    }
 }

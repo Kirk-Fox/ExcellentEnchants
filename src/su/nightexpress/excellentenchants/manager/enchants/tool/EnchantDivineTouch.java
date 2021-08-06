@@ -27,100 +27,100 @@ import su.nightexpress.excellentenchants.manager.EnchantRegister;
 
 public class EnchantDivineTouch extends IEnchantChanceTemplate implements BlockEnchant {
 
-	private final String particleEffect;
-	private final String spawnerName;
-	
-	public EnchantDivineTouch(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-		super(plugin, cfg);
+    private final String particleEffect;
+    private final String spawnerName;
 
-		this.particleEffect = cfg.getString("Settings.Particle_Effect", Particle.VILLAGER_HAPPY.name());
-		this.spawnerName = StringUT.color(cfg.getString("Settings.Spawner_Item.Name", "&aMob Spawner &7(%type%)"));
-	}
+    public EnchantDivineTouch(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
+        super(plugin, cfg);
 
-	@Override
-	protected void addConflicts() {
-		super.addConflicts();
-		this.addConflict(EnchantRegister.SMELTER);
-		this.addConflict(EnchantRegister.BLAST_MINING);
-	}
+        this.particleEffect = cfg.getString("Settings.Particle_Effect", Particle.VILLAGER_HAPPY.name());
+        this.spawnerName = StringUT.color(cfg.getString("Settings.Spawner_Item.Name", "&aMob Spawner &7(%type%)"));
+    }
 
-	@Override
-	protected void updateConfig() {
-		super.updateConfig();
+    @Override
+    protected void addConflicts() {
+        super.addConflicts();
+        this.addConflict(EnchantRegister.SMELTER);
+        this.addConflict(EnchantRegister.BLAST_MINING);
+    }
 
-		cfg.addMissing("Settings.Particle_Effect", Particle.VILLAGER_HAPPY.name());
-		if (cfg.contains("settings.spawner-name")) {
-			String name = cfg.getString("settings.spawner-name");
+    @Override
+    protected void updateConfig() {
+        super.updateConfig();
 
-			cfg.set("Settings.Spawner_Item.Name", name);
-			cfg.set("settings.spawner-name", null);
-		}
-	}
-	
-	@Override
-	public boolean canEnchant(@NotNull ItemStack item) {
-		return ItemUT.isPickaxe(item);
-	}
+        cfg.addMissing("Settings.Particle_Effect", Particle.VILLAGER_HAPPY.name());
+        if (cfg.contains("settings.spawner-name")) {
+            String name = cfg.getString("settings.spawner-name");
 
-	@Override
-	@NotNull
-	public EnchantmentTarget getItemTarget() {
-		return EnchantmentTarget.TOOL;
-	}
+            cfg.set("Settings.Spawner_Item.Name", name);
+            cfg.set("settings.spawner-name", null);
+        }
+    }
 
-	@Override
-	public boolean use(@NotNull BlockBreakEvent e, @NotNull Player player, @NotNull ItemStack item, int level) {
-		Block block = e.getBlock();
-		if (block.getType() != Material.SPAWNER) return false;
-		
-		if (!this.checkTriggerChance(level)) return false;
-			
-		Location location = LocUT.getCenter(block.getLocation());
-		World world = location.getWorld();
-		if (world == null) return false;
-		
-		CreatureSpawner spawnerBlock = (CreatureSpawner) block.getState();
-		
-		ItemStack itemSpawner = new ItemStack(Material.SPAWNER);
-		BlockStateMeta stateItem = (BlockStateMeta) itemSpawner.getItemMeta();
-		if (stateItem == null) return false;
+    @Override
+    public boolean canEnchant(@NotNull ItemStack item) {
+        return ItemUT.isPickaxe(item);
+    }
 
-		CreatureSpawner spawnerItem = (CreatureSpawner) stateItem.getBlockState();
-		spawnerItem.setSpawnedType(spawnerBlock.getSpawnedType());
-		spawnerItem.update(true);
-		stateItem.setBlockState(spawnerItem);
-		stateItem.setDisplayName(this.spawnerName.replace("%type%", plugin.lang().getEnum(spawnerBlock.getSpawnedType())));
-		itemSpawner.setItemMeta(stateItem);
-		
-		world.dropItemNaturally(location, itemSpawner);
-		EffectUT.playEffect(location, this.particleEffect, 0.3f, 0.3f, 0.3f, 0.15f, 30);
-		return true;
-	}
-	
-	// ---------------------------------------------------------------
-	// Spawner Type Fix
-	// ---------------------------------------------------------------
-	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-	public void onSpawnerPlace(BlockPlaceEvent e) {
-		Block block = e.getBlock();
-		if (block.getType() != Material.SPAWNER) return;
-		
-		Player player = e.getPlayer();
-		ItemStack spawner = player.getInventory().getItemInMainHand();
-		if (ItemUT.isAir(spawner) || spawner.getType() != Material.SPAWNER) {
-			spawner = player.getInventory().getItemInOffHand();
-		}
-		if (ItemUT.isAir(spawner) || spawner.getType() != Material.SPAWNER) {
-			return;
-		}
-		
-		BlockStateMeta meta = (BlockStateMeta) spawner.getItemMeta();
-		if (meta == null) return;
-		
-		CreatureSpawner spawnerItem = (CreatureSpawner) meta.getBlockState();
-	    CreatureSpawner spawnerBlock = (CreatureSpawner) block.getState();
-	    
-	    spawnerBlock.setSpawnedType(spawnerItem.getSpawnedType());
-	    spawnerBlock.update();
-	}
+    @Override
+    @NotNull
+    public EnchantmentTarget getItemTarget() {
+        return EnchantmentTarget.TOOL;
+    }
+
+    @Override
+    public boolean use(@NotNull BlockBreakEvent e, @NotNull Player player, @NotNull ItemStack item, int level) {
+        Block block = e.getBlock();
+        if (block.getType() != Material.SPAWNER) return false;
+
+        if (!this.checkTriggerChance(level)) return false;
+
+        Location location = LocUT.getCenter(block.getLocation());
+        World world = location.getWorld();
+        if (world == null) return false;
+
+        CreatureSpawner spawnerBlock = (CreatureSpawner) block.getState();
+
+        ItemStack itemSpawner = new ItemStack(Material.SPAWNER);
+        BlockStateMeta stateItem = (BlockStateMeta) itemSpawner.getItemMeta();
+        if (stateItem == null) return false;
+
+        CreatureSpawner spawnerItem = (CreatureSpawner) stateItem.getBlockState();
+        spawnerItem.setSpawnedType(spawnerBlock.getSpawnedType());
+        spawnerItem.update(true);
+        stateItem.setBlockState(spawnerItem);
+        stateItem.setDisplayName(this.spawnerName.replace("%type%", plugin.lang().getEnum(spawnerBlock.getSpawnedType())));
+        itemSpawner.setItemMeta(stateItem);
+
+        world.dropItemNaturally(location, itemSpawner);
+        EffectUT.playEffect(location, this.particleEffect, 0.3f, 0.3f, 0.3f, 0.15f, 30);
+        return true;
+    }
+
+    // ---------------------------------------------------------------
+    // Spawner Type Fix
+    // ---------------------------------------------------------------
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onSpawnerPlace(BlockPlaceEvent e) {
+        Block block = e.getBlock();
+        if (block.getType() != Material.SPAWNER) return;
+
+        Player player = e.getPlayer();
+        ItemStack spawner = player.getInventory().getItemInMainHand();
+        if (ItemUT.isAir(spawner) || spawner.getType() != Material.SPAWNER) {
+            spawner = player.getInventory().getItemInOffHand();
+        }
+        if (ItemUT.isAir(spawner) || spawner.getType() != Material.SPAWNER) {
+            return;
+        }
+
+        BlockStateMeta meta = (BlockStateMeta) spawner.getItemMeta();
+        if (meta == null) return;
+
+        CreatureSpawner spawnerItem = (CreatureSpawner) meta.getBlockState();
+        CreatureSpawner spawnerBlock = (CreatureSpawner) block.getState();
+
+        spawnerBlock.setSpawnedType(spawnerItem.getSpawnedType());
+        spawnerBlock.update();
+    }
 }

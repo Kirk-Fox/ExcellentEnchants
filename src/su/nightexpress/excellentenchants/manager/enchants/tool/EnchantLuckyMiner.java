@@ -18,54 +18,51 @@ import java.util.function.UnaryOperator;
 
 public class EnchantLuckyMiner extends IEnchantChanceTemplate implements BlockEnchant {
 
-	private final Scaler expModifier;
-	
-	public EnchantLuckyMiner(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-		super(plugin, cfg);
-		this.expModifier = new EnchantScaler(this, "Settings.Exp_Modifier");
-	}
+    private final Scaler expModifier;
 
-	@Override
-	protected void updateConfig() {
-		super.updateConfig();
+    public EnchantLuckyMiner(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
+        super(plugin, cfg);
+        this.expModifier = new EnchantScaler(this, "Settings.Exp_Modifier");
+    }
 
-		if (cfg.contains("settings.exp-modifier")) {
-			String damageModifier = cfg.getString("settings.exp-modifier", "")
-					.replace("%level%", PLACEHOLDER_LEVEL);
+    @Override
+    protected void updateConfig() {
+        super.updateConfig();
 
-			cfg.set("Settings.Exp_Modifier", damageModifier);
-			cfg.set("settings.exp-modifier", null);
-		}
-	}
+        if (cfg.contains("settings.exp-modifier")) {
+            String damageModifier = cfg.getString("settings.exp-modifier", "").replace("%level%", PLACEHOLDER_LEVEL);
 
-	@Override
-	public @NotNull UnaryOperator<String> replacePlaceholders(int level) {
-		return str -> super.replacePlaceholders(level).apply(str
-				.replace("%exp%", NumberUT.format(this.getExpModifier(level) * 100D - 100D))
-		);
-	}
+            cfg.set("Settings.Exp_Modifier", damageModifier);
+            cfg.set("settings.exp-modifier", null);
+        }
+    }
 
-	@Override
-	public boolean use(@NotNull BlockBreakEvent e, @NotNull Player player, @NotNull ItemStack item, int level) {
-		if (!this.checkTriggerChance(level)) return false;
-		
-		double expMod = this.getExpModifier(level);
-		e.setExpToDrop((int) ((double) e.getExpToDrop() * expMod));
-		return true;
-	}
+    @Override
+    public @NotNull UnaryOperator<String> replacePlaceholders(int level) {
+        return str -> super.replacePlaceholders(level).apply(str.replace("%exp%", NumberUT.format(this.getExpModifier(level) * 100D - 100D)));
+    }
 
-	public double getExpModifier(int level) {
-		return this.expModifier.getValue(level);
-	}
-	
-	@Override
-	public boolean canEnchant(@NotNull ItemStack item) {
-		return ItemUT.isPickaxe(item);
-	}
+    @Override
+    public boolean use(@NotNull BlockBreakEvent e, @NotNull Player player, @NotNull ItemStack item, int level) {
+        if (!this.checkTriggerChance(level)) return false;
 
-	@Override
-	@NotNull
-	public EnchantmentTarget getItemTarget() {
-		return EnchantmentTarget.TOOL;
-	}
+        double expMod = this.getExpModifier(level);
+        e.setExpToDrop((int) ((double) e.getExpToDrop() * expMod));
+        return true;
+    }
+
+    public double getExpModifier(int level) {
+        return this.expModifier.getValue(level);
+    }
+
+    @Override
+    public boolean canEnchant(@NotNull ItemStack item) {
+        return ItemUT.isPickaxe(item);
+    }
+
+    @Override
+    @NotNull
+    public EnchantmentTarget getItemTarget() {
+        return EnchantmentTarget.TOOL;
+    }
 }

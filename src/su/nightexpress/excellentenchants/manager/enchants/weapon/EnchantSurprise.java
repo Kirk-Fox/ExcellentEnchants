@@ -11,17 +11,16 @@ import su.nightexpress.excellentenchants.ExcellentEnchants;
 import su.nightexpress.excellentenchants.api.enchantment.IEnchantCombatPotionTemplate;
 
 public class EnchantSurprise extends IEnchantCombatPotionTemplate {
-	
-	public EnchantSurprise(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-		super(plugin, cfg, PotionEffectType.BLINDNESS);
-		
-	}
 
-	@Override
-	public boolean use(@NotNull EntityDamageByEntityEvent e, @NotNull LivingEntity damager,
-					   @NotNull LivingEntity victim, @NotNull ItemStack weapon, int level) {
-		
-		this.potionType = Rnd.get(PotionEffectType.values());
-		return super.use(e, damager, victim, weapon, level);
-	}
+    public EnchantSurprise(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
+        super(plugin, cfg, PotionEffectType.BLINDNESS);
+
+    }
+
+    @Override
+    public boolean use(@NotNull EntityDamageByEntityEvent e, @NotNull LivingEntity damager, @NotNull LivingEntity victim, @NotNull ItemStack weapon, int level) {
+
+        this.potionType = Rnd.get(PotionEffectType.values());
+        return super.use(e, damager, victim, weapon, level);
+    }
 }

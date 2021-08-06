@@ -15,50 +15,47 @@ import su.nightexpress.excellentenchants.manager.object.EnchantScaler;
 import java.util.function.UnaryOperator;
 
 public class EnchantSelfDestruction extends IEnchantChanceTemplate implements DeathEnchant {
-	
-	private final Scaler explosionSize;
-	
-	public EnchantSelfDestruction(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-		super(plugin, cfg);
-		this.explosionSize = new EnchantScaler(this, "Settings.Explosion.Size");
-	}
 
-	@Override
-	protected void updateConfig() {
-		super.updateConfig();
+    private final Scaler explosionSize;
 
-		if (cfg.contains("settings.explosion-size")) {
-			String size = cfg.getString("settings.explosion-size", "")
-					.replace("%level%", PLACEHOLDER_LEVEL);
+    public EnchantSelfDestruction(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
+        super(plugin, cfg);
+        this.explosionSize = new EnchantScaler(this, "Settings.Explosion.Size");
+    }
 
-			cfg.set("Settings.Explosion.Size", size);
-			cfg.set("settings.explosion-size", null);
-		}
-	}
+    @Override
+    protected void updateConfig() {
+        super.updateConfig();
 
-	@Override
-	public boolean use(@NotNull EntityDeathEvent e, @NotNull LivingEntity dead, int level) {
-		if (!this.checkTriggerChance(level)) return false;
-		
-		double size = this.getExplosionSize(level);
-		dead.getWorld().createExplosion(dead.getLocation(), (float) size, false, false);
-		return true;
-	}
+        if (cfg.contains("settings.explosion-size")) {
+            String size = cfg.getString("settings.explosion-size", "").replace("%level%", PLACEHOLDER_LEVEL);
 
-	@Override
-	public @NotNull UnaryOperator<String> replacePlaceholders(int level) {
-		return str -> super.replacePlaceholders(level).apply(str
-			.replace("%power%", NumberUT.format(this.getExplosionSize(level)))
-		);
-	}
+            cfg.set("Settings.Explosion.Size", size);
+            cfg.set("settings.explosion-size", null);
+        }
+    }
 
-	@Override
-	@NotNull
-	public EnchantmentTarget getItemTarget() {
-		return EnchantmentTarget.ARMOR_TORSO;
-	}
+    @Override
+    public boolean use(@NotNull EntityDeathEvent e, @NotNull LivingEntity dead, int level) {
+        if (!this.checkTriggerChance(level)) return false;
 
-	public final double getExplosionSize(int level) {
-		return this.explosionSize.getValue(level);
-	}
+        double size = this.getExplosionSize(level);
+        dead.getWorld().createExplosion(dead.getLocation(), (float) size, false, false);
+        return true;
+    }
+
+    @Override
+    public @NotNull UnaryOperator<String> replacePlaceholders(int level) {
+        return str -> super.replacePlaceholders(level).apply(str.replace("%power%", NumberUT.format(this.getExplosionSize(level))));
+    }
+
+    @Override
+    @NotNull
+    public EnchantmentTarget getItemTarget() {
+        return EnchantmentTarget.ARMOR_TORSO;
+    }
+
+    public final double getExplosionSize(int level) {
+        return this.explosionSize.getValue(level);
+    }
 }

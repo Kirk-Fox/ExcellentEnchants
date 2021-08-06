@@ -12,22 +12,21 @@ import su.nightexpress.excellentenchants.api.enchantment.type.CombatEnchant;
 
 public class EnchantThunder extends IEnchantChanceTemplate implements CombatEnchant {
 
-	public EnchantThunder(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-		super(plugin, cfg);
-	}
+    public EnchantThunder(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
+        super(plugin, cfg);
+    }
 
-	@Override
-	public boolean use(@NotNull EntityDamageByEntityEvent e, @NotNull LivingEntity damager,
-					   @NotNull LivingEntity victim, @NotNull ItemStack weapon, int level) {
-		if (!this.checkTriggerChance(level)) return false;
-		
-		victim.getWorld().strikeLightning(victim.getLocation());
-		return true;
-	}
+    @Override
+    public boolean use(@NotNull EntityDamageByEntityEvent e, @NotNull LivingEntity damager, @NotNull LivingEntity victim, @NotNull ItemStack weapon, int level) {
+        if (!this.checkTriggerChance(level)) return false;
 
-	@Override
-	@NotNull
-	public EnchantmentTarget getItemTarget() {
-		return EnchantmentTarget.WEAPON;
-	}
+        victim.getWorld().strikeLightning(victim.getLocation());
+        return true;
+    }
+
+    @Override
+    @NotNull
+    public EnchantmentTarget getItemTarget() {
+        return EnchantmentTarget.WEAPON;
+    }
 }

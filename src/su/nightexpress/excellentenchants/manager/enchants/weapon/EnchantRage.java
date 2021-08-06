@@ -10,14 +10,13 @@ import su.nightexpress.excellentenchants.ExcellentEnchants;
 import su.nightexpress.excellentenchants.api.enchantment.IEnchantCombatPotionTemplate;
 
 public class EnchantRage extends IEnchantCombatPotionTemplate {
-	
-	public EnchantRage(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-		super(plugin, cfg, PotionEffectType.INCREASE_DAMAGE);
-	}
 
-	@Override
-	public boolean use(@NotNull EntityDamageByEntityEvent e, @NotNull LivingEntity damager,
-					   @NotNull LivingEntity victim, @NotNull ItemStack weapon, int level) {
-		return super.use(e, damager, damager, weapon, level);
-	}
+    public EnchantRage(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
+        super(plugin, cfg, PotionEffectType.INCREASE_DAMAGE);
+    }
+
+    @Override
+    public boolean use(@NotNull EntityDamageByEntityEvent e, @NotNull LivingEntity damager, @NotNull LivingEntity victim, @NotNull ItemStack weapon, int level) {
+        return super.use(e, damager, damager, weapon, level);
+    }
 }

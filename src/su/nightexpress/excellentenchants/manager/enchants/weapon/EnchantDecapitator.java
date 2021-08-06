@@ -24,92 +24,92 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class EnchantDecapitator extends IEnchantChanceTemplate implements DeathEnchant {
-	
-	private final String              particleEffect;
-	private final String              headName;
-	private final Set<String>         ignored;
-	private final Map<String, String> headTextures;
-	
-	public EnchantDecapitator(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-		super(plugin, cfg);
 
-		this.particleEffect = cfg.getString("Settings.Particle_Effect", Particle.BLOCK_CRACK.name() + ":REDSTONE_BLOCK");
-		this.ignored = cfg.getStringSet("Settings.Ignored_Entity_Types").stream().map(String::toUpperCase).collect(Collectors.toSet());
-		this.headName = StringUT.color(cfg.getString("Settings.Head_Item.Name", "&c%entity%'s Head"));
-		this.headTextures = new HashMap<>();
-		for (String sType : cfg.getSection("Settings.Head_Item.Textures")) {
-			String texture = cfg.getString("Settings.Head_Item.Textures." + sType);
-			this.headTextures.put(sType.toUpperCase(), texture);
-		}
-	}
+    private final String              particleEffect;
+    private final String              headName;
+    private final Set<String>         ignored;
+    private final Map<String, String> headTextures;
 
-	@Override
-	protected void updateConfig() {
-		super.updateConfig();
+    public EnchantDecapitator(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
+        super(plugin, cfg);
 
-		this.cfg.addMissing("Settings.Ignored_Entity_Types", Arrays.asList("ENDER_DRAGON", "WITHER_SKELETON"));
-		if (cfg.contains("settings.enchant-particle-effect")) {
-			String effect = cfg.getString("settings.enchant-particle-effect", "");
-			String name = cfg.getString("settings.head-name");
+        this.particleEffect = cfg.getString("Settings.Particle_Effect", Particle.BLOCK_CRACK.name() + ":REDSTONE_BLOCK");
+        this.ignored = cfg.getStringSet("Settings.Ignored_Entity_Types").stream().map(String::toUpperCase).collect(Collectors.toSet());
+        this.headName = StringUT.color(cfg.getString("Settings.Head_Item.Name", "&c%entity%'s Head"));
+        this.headTextures = new HashMap<>();
+        for (String sType : cfg.getSection("Settings.Head_Item.Textures")) {
+            String texture = cfg.getString("Settings.Head_Item.Textures." + sType);
+            this.headTextures.put(sType.toUpperCase(), texture);
+        }
+    }
 
-			cfg.set("Settings.Particle_Effect", effect);
-			cfg.set("Settings.Head_Item.Name", name);
-			cfg.set("settings.enchant-particle-effect", null);
-			cfg.set("settings.head-name", null);
-		}
-	}
+    @Override
+    protected void updateConfig() {
+        super.updateConfig();
 
-	@Override
-	@NotNull
-	public EnchantmentTarget getItemTarget() {
-		return EnchantmentTarget.WEAPON;
-	}
+        this.cfg.addMissing("Settings.Ignored_Entity_Types", Arrays.asList("ENDER_DRAGON", "WITHER_SKELETON"));
+        if (cfg.contains("settings.enchant-particle-effect")) {
+            String effect = cfg.getString("settings.enchant-particle-effect", "");
+            String name = cfg.getString("settings.head-name");
 
-	@Override
-	public boolean use(@NotNull EntityDeathEvent e, @NotNull LivingEntity victim, int level) {
-		if (!this.checkTriggerChance(level)) return false;
-		
-		ItemStack item;
-		if (victim instanceof WitherSkeleton) {
-			item = new ItemStack(Material.WITHER_SKELETON_SKULL);
-		}
-		else if (victim instanceof Zombie || victim instanceof Giant) {
-			item = new ItemStack(Material.ZOMBIE_HEAD);
-		}
-		else if (victim instanceof Skeleton) {
-			item = new ItemStack(Material.SKELETON_SKULL);
-		}
-		else if (victim instanceof Creeper) {
-			item = new ItemStack(Material.CREEPER_HEAD);
-		}
-		else if (victim instanceof EnderDragon) {
-			item = new ItemStack(Material.DRAGON_HEAD);
-		}
-		else {
-			item = new ItemStack(Material.PLAYER_HEAD);
-			SkullMeta meta = (SkullMeta) item.getItemMeta();
-			if (meta == null) return false;
+            cfg.set("Settings.Particle_Effect", effect);
+            cfg.set("Settings.Head_Item.Name", name);
+            cfg.set("settings.enchant-particle-effect", null);
+            cfg.set("settings.head-name", null);
+        }
+    }
 
-			String entityName;
-			if (victim instanceof Player player) {
-				entityName = this.headName.replace("%entity%", victim.getName());
-				meta.setOwningPlayer(player);
-			}
-			else {
-				String texture = this.headTextures.get(victim.getType().name());
-				if (texture == null) return false;
+    @Override
+    @NotNull
+    public EnchantmentTarget getItemTarget() {
+        return EnchantmentTarget.WEAPON;
+    }
 
-				entityName = this.headName.replace("%entity%", plugin.lang().getEnum(victim.getType()));
-				ItemUT.addSkullTexture(item, texture);
-				meta = (SkullMeta) item.getItemMeta();
-			}
+    @Override
+    public boolean use(@NotNull EntityDeathEvent e, @NotNull LivingEntity victim, int level) {
+        if (!this.checkTriggerChance(level)) return false;
 
-			meta.setDisplayName(entityName);
-			item.setItemMeta(meta);
-		}
+        ItemStack item;
+        if (victim instanceof WitherSkeleton) {
+            item = new ItemStack(Material.WITHER_SKELETON_SKULL);
+        }
+        else if (victim instanceof Zombie || victim instanceof Giant) {
+            item = new ItemStack(Material.ZOMBIE_HEAD);
+        }
+        else if (victim instanceof Skeleton) {
+            item = new ItemStack(Material.SKELETON_SKULL);
+        }
+        else if (victim instanceof Creeper) {
+            item = new ItemStack(Material.CREEPER_HEAD);
+        }
+        else if (victim instanceof EnderDragon) {
+            item = new ItemStack(Material.DRAGON_HEAD);
+        }
+        else {
+            item = new ItemStack(Material.PLAYER_HEAD);
+            SkullMeta meta = (SkullMeta) item.getItemMeta();
+            if (meta == null) return false;
 
-		victim.getWorld().dropItemNaturally(victim.getLocation(), item);
-		EffectUT.playEffect(victim.getEyeLocation(), this.particleEffect, 0.2f, 0.15f, 0.2f, 0.15f, 40);
-		return true;
-	}
+            String entityName;
+            if (victim instanceof Player player) {
+                entityName = this.headName.replace("%entity%", victim.getName());
+                meta.setOwningPlayer(player);
+            }
+            else {
+                String texture = this.headTextures.get(victim.getType().name());
+                if (texture == null) return false;
+
+                entityName = this.headName.replace("%entity%", plugin.lang().getEnum(victim.getType()));
+                ItemUT.addSkullTexture(item, texture);
+                meta = (SkullMeta) item.getItemMeta();
+            }
+
+            meta.setDisplayName(entityName);
+            item.setItemMeta(meta);
+        }
+
+        victim.getWorld().dropItemNaturally(victim.getLocation(), item);
+        EffectUT.playEffect(victim.getEyeLocation(), this.particleEffect, 0.2f, 0.15f, 0.2f, 0.15f, 40);
+        return true;
+    }
 }

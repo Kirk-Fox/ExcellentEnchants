@@ -12,22 +12,21 @@ import su.nightexpress.excellentenchants.api.enchantment.IEnchantPotionTemplate;
 import su.nightexpress.excellentenchants.api.enchantment.type.CombatEnchant;
 
 public class EnchantColdSteel extends IEnchantPotionTemplate implements CombatEnchant {
-	
-	public EnchantColdSteel(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-		super(plugin, cfg, PotionEffectType.SLOW_DIGGING);
-	}
 
-	@Override
-	@NotNull
-	public EnchantmentTarget getItemTarget() {
-		return EnchantmentTarget.ARMOR_TORSO;
-	}
+    public EnchantColdSteel(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
+        super(plugin, cfg, PotionEffectType.SLOW_DIGGING);
+    }
 
-	@Override
-	public boolean use(@NotNull EntityDamageByEntityEvent e, @NotNull LivingEntity damager,
-					   @NotNull LivingEntity victim, @NotNull ItemStack weapon, int level) {
-		if (!this.checkTriggerChance(level)) return false;
+    @Override
+    @NotNull
+    public EnchantmentTarget getItemTarget() {
+        return EnchantmentTarget.ARMOR_TORSO;
+    }
 
-		return this.addEffect(damager, level);
-	}
+    @Override
+    public boolean use(@NotNull EntityDamageByEntityEvent e, @NotNull LivingEntity damager, @NotNull LivingEntity victim, @NotNull ItemStack weapon, int level) {
+        if (!this.checkTriggerChance(level)) return false;
+
+        return this.addEffect(damager, level);
+    }
 }

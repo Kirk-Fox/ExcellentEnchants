@@ -3,7 +3,7 @@ version: 3.0.3
 name: ExcellentEnchants
 author: NightExpress
 desciption: Vanilla-like enchants for your server.
-depend: [NexEngine]
+depend: [ NexEngine ]
 api-version: 1.15
 load: STARTUP
 

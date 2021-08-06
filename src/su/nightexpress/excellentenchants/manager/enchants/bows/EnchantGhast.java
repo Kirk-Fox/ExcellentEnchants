@@ -17,45 +17,44 @@ import su.nightexpress.excellentenchants.api.enchantment.type.BowEnchant;
 import su.nightexpress.excellentenchants.manager.EnchantRegister;
 
 public class EnchantGhast extends IEnchantChanceTemplate implements BowEnchant {
-	
-	public EnchantGhast(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-		super(plugin, cfg);
-	}
 
-	@Override
-	protected void addConflicts() {
-		super.addConflicts();
-		this.addConflict(EnchantRegister.BOMBER);
-		this.addConflict(EnchantRegister.ENDER_BOW);
-		this.addConflict(Enchantment.MULTISHOT);
-	}
+    public EnchantGhast(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
+        super(plugin, cfg);
+    }
 
-	@Override
-	@NotNull
-	public EnchantmentTarget getItemTarget() {
-		return EnchantmentTarget.BOW;
-	}
+    @Override
+    protected void addConflicts() {
+        super.addConflicts();
+        this.addConflict(EnchantRegister.BOMBER);
+        this.addConflict(EnchantRegister.ENDER_BOW);
+        this.addConflict(Enchantment.MULTISHOT);
+    }
 
-	@Override
-	public boolean use(@NotNull EntityShootBowEvent e, @NotNull LivingEntity shooter,
-					   @NotNull ItemStack bow, int level) {
-		
-		if (!this.checkTriggerChance(level)) return false;
-		if (!(e.getProjectile() instanceof Projectile projectile)) return false;
-		
-		Fireball fireball = shooter.launchProjectile(Fireball.class);
-		fireball.setVelocity(projectile.getVelocity());
-		e.setProjectile(fireball);
-		return true;
-	}
+    @Override
+    @NotNull
+    public EnchantmentTarget getItemTarget() {
+        return EnchantmentTarget.BOW;
+    }
 
-	@Override
-	public boolean use(@NotNull ProjectileHitEvent e, @NotNull Projectile projectile, @NotNull ItemStack bow, int level) {
-		return false;
-	}
+    @Override
+    public boolean use(@NotNull EntityShootBowEvent e, @NotNull LivingEntity shooter, @NotNull ItemStack bow, int level) {
 
-	@Override
-	public boolean use(@NotNull EntityDamageByEntityEvent e, @NotNull LivingEntity damager, @NotNull LivingEntity victim, @NotNull ItemStack weapon, int level) {
-		return false;
-	}
+        if (!this.checkTriggerChance(level)) return false;
+        if (!(e.getProjectile() instanceof Projectile projectile)) return false;
+
+        Fireball fireball = shooter.launchProjectile(Fireball.class);
+        fireball.setVelocity(projectile.getVelocity());
+        e.setProjectile(fireball);
+        return true;
+    }
+
+    @Override
+    public boolean use(@NotNull ProjectileHitEvent e, @NotNull Projectile projectile, @NotNull ItemStack bow, int level) {
+        return false;
+    }
+
+    @Override
+    public boolean use(@NotNull EntityDamageByEntityEvent e, @NotNull LivingEntity damager, @NotNull LivingEntity victim, @NotNull ItemStack weapon, int level) {
+        return false;
+    }
 }

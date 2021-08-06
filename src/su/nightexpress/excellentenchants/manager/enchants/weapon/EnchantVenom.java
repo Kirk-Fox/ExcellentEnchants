@@ -7,8 +7,8 @@ import su.nightexpress.excellentenchants.ExcellentEnchants;
 import su.nightexpress.excellentenchants.api.enchantment.IEnchantCombatPotionTemplate;
 
 public class EnchantVenom extends IEnchantCombatPotionTemplate {
-	
-	public EnchantVenom(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-		super(plugin, cfg, PotionEffectType.POISON);
-	}
+
+    public EnchantVenom(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
+        super(plugin, cfg, PotionEffectType.POISON);
+    }
 }

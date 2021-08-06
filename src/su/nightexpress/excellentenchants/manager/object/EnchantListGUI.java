@@ -21,7 +21,7 @@ public class EnchantListGUI extends AbstractMenu<ExcellentEnchants> {
     private final ItemStack enchantIcon;
     private final int[]     enchantSlots;
 
-    private final NamespacedKey keyLevel;
+    private final NamespacedKey                        keyLevel;
     private final Map<String, Map<Integer, ItemStack>> iconCache;
 
     public EnchantListGUI(@NotNull ExcellentEnchants plugin) {
@@ -53,8 +53,7 @@ public class EnchantListGUI extends AbstractMenu<ExcellentEnchants> {
     }
 
     private ItemStack getEnchantIcon(@NotNull ExcellentEnchant enchant, int level) {
-        return this.iconCache.computeIfAbsent(enchant.getId(), k -> new HashMap<>())
-                .computeIfAbsent(level, k -> this.buildEnchantIcon(enchant, level));
+        return this.iconCache.computeIfAbsent(enchant.getId(), k -> new HashMap<>()).computeIfAbsent(level, k -> this.buildEnchantIcon(enchant, level));
     }
 
     @NotNull
@@ -68,8 +67,7 @@ public class EnchantListGUI extends AbstractMenu<ExcellentEnchants> {
     public void onPrepare(@NotNull Player player, @NotNull Inventory inventory) {
         int page = this.getPage(player);
         int length = this.enchantSlots.length;
-        List<ExcellentEnchant> list = new ArrayList<>(EnchantRegister.ENCHANT_LIST.stream()
-            .sorted(Comparator.comparing(ExcellentEnchant::getName)).toList());
+        List<ExcellentEnchant> list = new ArrayList<>(EnchantRegister.ENCHANT_LIST.stream().sorted(Comparator.comparing(ExcellentEnchant::getName)).toList());
         List<List<ExcellentEnchant>> split = CollectionsUT.split(list, length);
 
         int pages = split.size();

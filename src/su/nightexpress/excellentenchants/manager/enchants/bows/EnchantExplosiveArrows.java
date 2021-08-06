@@ -17,47 +17,44 @@ import java.util.function.UnaryOperator;
 
 public class EnchantExplosiveArrows extends IEnchantBowHitTemplate {
 
-	private final Scaler explosionSize;
-	
-	public EnchantExplosiveArrows(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-		super(plugin, cfg);
-		this.explosionSize = new EnchantScaler(this, "Settings.Explosion.Size");
-	}
+    private final Scaler explosionSize;
 
-	@Override
-	protected void updateConfig() {
-		super.updateConfig();
+    public EnchantExplosiveArrows(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
+        super(plugin, cfg);
+        this.explosionSize = new EnchantScaler(this, "Settings.Explosion.Size");
+    }
 
-		if (cfg.contains("settings.explosion-size")) {
-			String size = cfg.getString("settings.explosion-size", "")
-					.replace("%level%", PLACEHOLDER_LEVEL);
+    @Override
+    protected void updateConfig() {
+        super.updateConfig();
 
-			cfg.set("Settings.Explosion.Size", size);
-			cfg.set("settings.explosion-size", null);
-		}
-	}
+        if (cfg.contains("settings.explosion-size")) {
+            String size = cfg.getString("settings.explosion-size", "").replace("%level%", PLACEHOLDER_LEVEL);
 
-	@Override
-	public @NotNull UnaryOperator<String> replacePlaceholders(int level) {
-		return str -> super.replacePlaceholders(level).apply(str
-				.replace("%power%", NumberUT.format(this.getExplosionSize(level)))
-		);
-	}
-	
-	public final double getExplosionSize(int level) {
-		return this.explosionSize.getValue(level);
-	}
-	
-	@Override
-	public boolean use(@NotNull ProjectileHitEvent e, @NotNull Projectile projectile, @NotNull ItemStack bow, int level) {
-		if (!super.use(e, projectile, bow, level)) return false;
+            cfg.set("Settings.Explosion.Size", size);
+            cfg.set("settings.explosion-size", null);
+        }
+    }
 
-		Entity shooter = null;
-		if (projectile.getShooter() instanceof Entity entity) {
-			shooter = entity;
-		}
+    @Override
+    public @NotNull UnaryOperator<String> replacePlaceholders(int level) {
+        return str -> super.replacePlaceholders(level).apply(str.replace("%power%", NumberUT.format(this.getExplosionSize(level))));
+    }
 
-		World world = projectile.getWorld();
-		return world.createExplosion(projectile.getLocation(), (float) this.getExplosionSize(level), true, false, shooter);
-	}
+    public final double getExplosionSize(int level) {
+        return this.explosionSize.getValue(level);
+    }
+
+    @Override
+    public boolean use(@NotNull ProjectileHitEvent e, @NotNull Projectile projectile, @NotNull ItemStack bow, int level) {
+        if (!super.use(e, projectile, bow, level)) return false;
+
+        Entity shooter = null;
+        if (projectile.getShooter() instanceof Entity entity) {
+            shooter = entity;
+        }
+
+        World world = projectile.getWorld();
+        return world.createExplosion(projectile.getLocation(), (float) this.getExplosionSize(level), true, false, shooter);
+    }
 }

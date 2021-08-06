@@ -22,65 +22,63 @@ import java.util.stream.Collectors;
 
 public class EnchantThrifty extends IEnchantChanceTemplate implements DeathEnchant {
 
-	private final Set<String> entityBlacklist;
-	private final Set<String> spawnReasonBlacklist;
-	
-	private static final String META_SETTING_SPAWN_REASON = "GOLDEN_ENCHANTS_THRIFTY_SETTING_SPAWN_REASON";
-	
-	public EnchantThrifty(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-		super(plugin, cfg);
-		
-		this.entityBlacklist = cfg.getStringSet("Settings.Ignored_Entity_Types").stream()
-				.map(String::toUpperCase).collect(Collectors.toSet());
-		
-		this.spawnReasonBlacklist = cfg.getStringSet("Settings.Ignored_Spawn_Reasons").stream()
-				.map(String::toUpperCase).collect(Collectors.toSet());
-	}
+    private final Set<String> entityBlacklist;
+    private final Set<String> spawnReasonBlacklist;
 
-	@Override
-	protected void updateConfig() {
-		super.updateConfig();
+    private static final String META_SETTING_SPAWN_REASON = "GOLDEN_ENCHANTS_THRIFTY_SETTING_SPAWN_REASON";
 
-		if (cfg.contains("settings.entity-blacklist")) {
-			List<String> list1 = cfg.getStringList("settings.entity-blacklist");
-			List<String> list2 = cfg.getStringList("settings.spawn-reason-blacklist");
+    public EnchantThrifty(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
+        super(plugin, cfg);
 
-			cfg.set("Settings.Ignored_Entity_Types", list1);
-			cfg.set("Settings.Ignored_Spawn_Reasons", list2);
-			cfg.set("settings.entity-blacklist", null);
-			cfg.set("settings.spawn-reason-blacklist", null);
-		}
-	}
+        this.entityBlacklist = cfg.getStringSet("Settings.Ignored_Entity_Types").stream().map(String::toUpperCase).collect(Collectors.toSet());
 
-	@Override
-	@NotNull
-	public EnchantmentTarget getItemTarget() {
-		return EnchantmentTarget.WEAPON;
-	}
+        this.spawnReasonBlacklist = cfg.getStringSet("Settings.Ignored_Spawn_Reasons").stream().map(String::toUpperCase).collect(Collectors.toSet());
+    }
 
-	@Override
-	public boolean use(@NotNull EntityDeathEvent e, @NotNull LivingEntity dead, int level) {
-		if (this.entityBlacklist.contains(dead.getType().name())) return false;
-		if (dead.hasMetadata(META_SETTING_SPAWN_REASON)) return false;
-		if (!this.checkTriggerChance(level)) return false;
-		
-		Material material = Material.getMaterial(dead.getType().name() + "_SPAWN_EGG");
-		if (material == null) {
-			if (dead.getType() == EntityType.MUSHROOM_COW) {
-				material = Material.MOOSHROOM_SPAWN_EGG;
-			}
-			else return false;
-		}
-		
-		ItemStack egg = new ItemStack(material);
-		e.getDrops().add(egg);
-		return true;
-	}
-	
-	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-	public void onSettingCreatureSpawnReason(CreatureSpawnEvent e) {
-		if (!this.spawnReasonBlacklist.contains(e.getSpawnReason().name())) return;
-		
-		e.getEntity().setMetadata(META_SETTING_SPAWN_REASON, new FixedMetadataValue(plugin, true));
-	}
+    @Override
+    protected void updateConfig() {
+        super.updateConfig();
+
+        if (cfg.contains("settings.entity-blacklist")) {
+            List<String> list1 = cfg.getStringList("settings.entity-blacklist");
+            List<String> list2 = cfg.getStringList("settings.spawn-reason-blacklist");
+
+            cfg.set("Settings.Ignored_Entity_Types", list1);
+            cfg.set("Settings.Ignored_Spawn_Reasons", list2);
+            cfg.set("settings.entity-blacklist", null);
+            cfg.set("settings.spawn-reason-blacklist", null);
+        }
+    }
+
+    @Override
+    @NotNull
+    public EnchantmentTarget getItemTarget() {
+        return EnchantmentTarget.WEAPON;
+    }
+
+    @Override
+    public boolean use(@NotNull EntityDeathEvent e, @NotNull LivingEntity dead, int level) {
+        if (this.entityBlacklist.contains(dead.getType().name())) return false;
+        if (dead.hasMetadata(META_SETTING_SPAWN_REASON)) return false;
+        if (!this.checkTriggerChance(level)) return false;
+
+        Material material = Material.getMaterial(dead.getType().name() + "_SPAWN_EGG");
+        if (material == null) {
+            if (dead.getType() == EntityType.MUSHROOM_COW) {
+                material = Material.MOOSHROOM_SPAWN_EGG;
+            }
+            else return false;
+        }
+
+        ItemStack egg = new ItemStack(material);
+        e.getDrops().add(egg);
+        return true;
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onSettingCreatureSpawnReason(CreatureSpawnEvent e) {
+        if (!this.spawnReasonBlacklist.contains(e.getSpawnReason().name())) return;
+
+        e.getEntity().setMetadata(META_SETTING_SPAWN_REASON, new FixedMetadataValue(plugin, true));
+    }
 }

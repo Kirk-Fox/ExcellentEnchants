@@ -15,52 +15,49 @@ import su.nightexpress.excellentenchants.manager.object.EnchantScaler;
 import java.util.function.UnaryOperator;
 
 public class EnchantExpHunter extends IEnchantChanceTemplate implements DeathEnchant {
-	
-	private final Scaler expMod;
-	
-	public EnchantExpHunter(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-		super(plugin, cfg);
-		this.expMod = new EnchantScaler(this, "Settings.Exp_Modifier");
-	}
 
-	@Override
-	protected void updateConfig() {
-		super.updateConfig();
+    private final Scaler expMod;
 
-		if (cfg.contains("settings.exp-modifier")) {
-			String damageModifier = cfg.getString("settings.exp-modifier", "")
-					.replace("%level%", PLACEHOLDER_LEVEL);
+    public EnchantExpHunter(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
+        super(plugin, cfg);
+        this.expMod = new EnchantScaler(this, "Settings.Exp_Modifier");
+    }
 
-			cfg.set("Settings.Exp_Modifier", damageModifier);
-			cfg.set("settings.exp-modifier", null);
-		}
-	}
+    @Override
+    protected void updateConfig() {
+        super.updateConfig();
 
-	@Override
-	public @NotNull UnaryOperator<String> replacePlaceholders(int level) {
-		return str -> super.replacePlaceholders(level).apply(str
-				.replace("%exp%", NumberUT.format(this.getExpModifier(level) * 100D - 100D))
-		);
-	}
+        if (cfg.contains("settings.exp-modifier")) {
+            String damageModifier = cfg.getString("settings.exp-modifier", "").replace("%level%", PLACEHOLDER_LEVEL);
 
-	@Override
-	public boolean use(@NotNull EntityDeathEvent e, @NotNull LivingEntity dead, int level) {
-		if (!this.checkTriggerChance(level)) return false;
-		
-		double mod = this.getExpModifier(level);
-		double exp = e.getDroppedExp() * mod;
-		
-		e.setDroppedExp((int) Math.ceil(exp));
-		return true;
-	}
+            cfg.set("Settings.Exp_Modifier", damageModifier);
+            cfg.set("settings.exp-modifier", null);
+        }
+    }
 
-	@Override
-	@NotNull
-	public EnchantmentTarget getItemTarget() {
-		return EnchantmentTarget.WEAPON;
-	}
+    @Override
+    public @NotNull UnaryOperator<String> replacePlaceholders(int level) {
+        return str -> super.replacePlaceholders(level).apply(str.replace("%exp%", NumberUT.format(this.getExpModifier(level) * 100D - 100D)));
+    }
 
-	public final double getExpModifier(int level) {
-		return this.expMod.getValue(level);
-	}
+    @Override
+    public boolean use(@NotNull EntityDeathEvent e, @NotNull LivingEntity dead, int level) {
+        if (!this.checkTriggerChance(level)) return false;
+
+        double mod = this.getExpModifier(level);
+        double exp = e.getDroppedExp() * mod;
+
+        e.setDroppedExp((int) Math.ceil(exp));
+        return true;
+    }
+
+    @Override
+    @NotNull
+    public EnchantmentTarget getItemTarget() {
+        return EnchantmentTarget.WEAPON;
+    }
+
+    public final double getExpModifier(int level) {
+        return this.expMod.getValue(level);
+    }
 }

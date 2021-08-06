@@ -10,21 +10,21 @@ import su.nightexpress.excellentenchants.api.enchantment.IEnchantPotionTemplate;
 import su.nightexpress.excellentenchants.api.enchantment.type.PassiveEnchant;
 
 public class EnchantSonic extends IEnchantPotionTemplate implements PassiveEnchant {
-	
-	public EnchantSonic(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-		super(plugin, cfg, PotionEffectType.SPEED);
-	}
 
-	@Override
-	@NotNull
-	public EnchantmentTarget getItemTarget() {
-		return EnchantmentTarget.ARMOR_FEET;
-	}
+    public EnchantSonic(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
+        super(plugin, cfg, PotionEffectType.SPEED);
+    }
 
-	@Override
-	public boolean use(@NotNull LivingEntity user, int level) {
-		if (!this.checkTriggerChance(level)) return false;
-		
-		return this.addEffect(user, level);
-	}
+    @Override
+    @NotNull
+    public EnchantmentTarget getItemTarget() {
+        return EnchantmentTarget.ARMOR_FEET;
+    }
+
+    @Override
+    public boolean use(@NotNull LivingEntity user, int level) {
+        if (!this.checkTriggerChance(level)) return false;
+
+        return this.addEffect(user, level);
+    }
 }

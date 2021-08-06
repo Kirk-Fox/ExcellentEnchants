@@ -27,79 +27,76 @@ import java.util.function.UnaryOperator;
 
 public class EnchantBlastMining extends IEnchantChanceTemplate implements BlockEnchant {
 
-	private final Scaler explosionPower;
-	
-	public EnchantBlastMining(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-		super(plugin, cfg);
+    private final Scaler explosionPower;
 
-		this.explosionPower = new EnchantScaler(this, "Settings.Explosion.Power");
-	}
+    public EnchantBlastMining(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
+        super(plugin, cfg);
 
-	@Override
-	protected void addConflicts() {
-		super.addConflicts();
-		this.addConflict(EnchantRegister.DIVINE_TOUCH);
-		this.addConflict(EnchantRegister.SMELTER);
-		this.addConflict(Enchantment.SILK_TOUCH);
-		this.addConflict(EnchantRegister.TUNNEL);
-	}
+        this.explosionPower = new EnchantScaler(this, "Settings.Explosion.Power");
+    }
 
-	@Override
-	protected void updateConfig() {
-		super.updateConfig();
+    @Override
+    protected void addConflicts() {
+        super.addConflicts();
+        this.addConflict(EnchantRegister.DIVINE_TOUCH);
+        this.addConflict(EnchantRegister.SMELTER);
+        this.addConflict(Enchantment.SILK_TOUCH);
+        this.addConflict(EnchantRegister.TUNNEL);
+    }
 
-		if (cfg.contains("settings.explosion-power")) {
-			String size = cfg.getString("settings.explosion-power", "")
-					.replace("%level%", PLACEHOLDER_LEVEL);
+    @Override
+    protected void updateConfig() {
+        super.updateConfig();
 
-			cfg.set("Settings.Explosion.Power", size);
-			cfg.set("settings.explosion-power", null);
-		}
-	}
+        if (cfg.contains("settings.explosion-power")) {
+            String size = cfg.getString("settings.explosion-power", "").replace("%level%", PLACEHOLDER_LEVEL);
 
-	@Override
-	public @NotNull UnaryOperator<String> replacePlaceholders(int level) {
-		return str -> super.replacePlaceholders(level).apply(str
-				.replace("%power%", NumberUT.format(this.getExplosionPower(level)))
-		);
-	}
+            cfg.set("Settings.Explosion.Power", size);
+            cfg.set("settings.explosion-power", null);
+        }
+    }
 
-	@Override
-	public boolean use(@NotNull BlockBreakEvent e, @NotNull Player player, @NotNull ItemStack item, int level) {
-		if (!this.checkTriggerChance(level)) return false;
-		
-		float power = (float) this.getExplosionPower(level);
-		
-		Block block = e.getBlock();
-		return block.getWorld().createExplosion(block.getLocation(), power, false, true, player);
-	}
+    @Override
+    public @NotNull UnaryOperator<String> replacePlaceholders(int level) {
+        return str -> super.replacePlaceholders(level).apply(str.replace("%power%", NumberUT.format(this.getExplosionPower(level))));
+    }
 
-	public double getExplosionPower(int level) {
-		return this.explosionPower.getValue(level);
-	}
-	
-	@Override
-	public boolean canEnchant(@NotNull ItemStack item) {
-		return ItemUT.isPickaxe(item);
-	}
+    @Override
+    public boolean use(@NotNull BlockBreakEvent e, @NotNull Player player, @NotNull ItemStack item, int level) {
+        if (!this.checkTriggerChance(level)) return false;
 
-	@Override
-	@NotNull
-	public EnchantmentTarget getItemTarget() {
-		return EnchantmentTarget.TOOL;
-	}
-	
-	// Do not damage around entities by en enchantment explosion.
-	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
-	public void onBlastDamage(EntityDamageByEntityEvent e) {
-		if (e.getCause() != DamageCause.ENTITY_EXPLOSION) return;
-		
-		Entity eDamager = e.getDamager();
-		if (!(eDamager instanceof Player player)) return;
+        float power = (float) this.getExplosionPower(level);
 
-		ItemStack pick = player.getInventory().getItemInMainHand();
-		if (EnchantManager.getEnchantLevel(pick, this) <= 0) return;
-		
-		e.setCancelled(true);
-	}
+        Block block = e.getBlock();
+        return block.getWorld().createExplosion(block.getLocation(), power, false, true, player);
+    }
+
+    public double getExplosionPower(int level) {
+        return this.explosionPower.getValue(level);
+    }
+
+    @Override
+    public boolean canEnchant(@NotNull ItemStack item) {
+        return ItemUT.isPickaxe(item);
+    }
+
+    @Override
+    @NotNull
+    public EnchantmentTarget getItemTarget() {
+        return EnchantmentTarget.TOOL;
+    }
+
+    // Do not damage around entities by en enchantment explosion.
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
+    public void onBlastDamage(EntityDamageByEntityEvent e) {
+        if (e.getCause() != DamageCause.ENTITY_EXPLOSION) return;
+
+        Entity eDamager = e.getDamager();
+        if (!(eDamager instanceof Player player)) return;
+
+        ItemStack pick = player.getInventory().getItemInMainHand();
+        if (EnchantManager.getEnchantLevel(pick, this) <= 0) return;
+
+        e.setCancelled(true);
+    }
 }

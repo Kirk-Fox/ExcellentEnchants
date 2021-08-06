@@ -6,5 +6,5 @@ import org.jetbrains.annotations.NotNull;
 
 public interface EnchantNMS {
 
-	void handleFlameWalker(@NotNull LivingEntity entity, @NotNull Location loc, int level);
+    void handleFlameWalker(@NotNull LivingEntity entity, @NotNull Location loc, int level);
 }

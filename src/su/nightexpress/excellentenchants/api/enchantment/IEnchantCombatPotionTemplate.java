@@ -13,41 +13,39 @@ import su.nightexpress.excellentenchants.api.enchantment.type.CombatEnchant;
 
 public abstract class IEnchantCombatPotionTemplate extends IEnchantPotionTemplate implements CombatEnchant {
 
-	protected String particleEffect;
-	
-	public IEnchantCombatPotionTemplate(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg, @NotNull PotionEffectType effectType) {
-		super(plugin, cfg, effectType);
+    protected String particleEffect;
 
-		this.particleEffect = cfg.getString("Settings.Particle_Effect", "");
-	}
+    public IEnchantCombatPotionTemplate(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg, @NotNull PotionEffectType effectType) {
+        super(plugin, cfg, effectType);
 
-	@Override
-	protected void updateConfig() {
-		super.updateConfig();
+        this.particleEffect = cfg.getString("Settings.Particle_Effect", "");
+    }
 
-		if (cfg.contains("settings.particle-effect")) {
-			String effect = cfg.getString("settings.particle-effect", "");
+    @Override
+    protected void updateConfig() {
+        super.updateConfig();
 
-			cfg.set("Settings.Particle_Effect", effect);
-			cfg.set("settings.particle-effect", null);
-		}
-	}
+        if (cfg.contains("settings.particle-effect")) {
+            String effect = cfg.getString("settings.particle-effect", "");
 
-	@Override
-	@NotNull
-	public final EnchantmentTarget getItemTarget() {
-		return EnchantmentTarget.WEAPON;
-	}
-	
-	@Override
-	public boolean use(
-			@NotNull EntityDamageByEntityEvent e, @NotNull LivingEntity damager,
-			@NotNull LivingEntity victim, @NotNull ItemStack weapon, int level) {
-		
-		if (!this.checkTriggerChance(level)) return false;
-		if (!this.addEffect(victim, level)) return false;
+            cfg.set("Settings.Particle_Effect", effect);
+            cfg.set("settings.particle-effect", null);
+        }
+    }
 
-		EffectUT.playEffect(victim.getEyeLocation(), this.particleEffect, 0.2f, 0.15f, 0.2f, 0.1f, 40);
-		return true;
-	}
+    @Override
+    @NotNull
+    public final EnchantmentTarget getItemTarget() {
+        return EnchantmentTarget.WEAPON;
+    }
+
+    @Override
+    public boolean use(@NotNull EntityDamageByEntityEvent e, @NotNull LivingEntity damager, @NotNull LivingEntity victim, @NotNull ItemStack weapon, int level) {
+
+        if (!this.checkTriggerChance(level)) return false;
+        if (!this.addEffect(victim, level)) return false;
+
+        EffectUT.playEffect(victim.getEyeLocation(), this.particleEffect, 0.2f, 0.15f, 0.2f, 0.1f, 40);
+        return true;
+    }
 }

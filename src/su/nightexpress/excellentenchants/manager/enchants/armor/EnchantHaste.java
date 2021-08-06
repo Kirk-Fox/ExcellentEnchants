@@ -11,20 +11,20 @@ import su.nightexpress.excellentenchants.api.enchantment.type.PassiveEnchant;
 
 public class EnchantHaste extends IEnchantPotionTemplate implements PassiveEnchant {
 
-	public EnchantHaste(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-		super(plugin, cfg, PotionEffectType.FAST_DIGGING);
-	}
+    public EnchantHaste(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
+        super(plugin, cfg, PotionEffectType.FAST_DIGGING);
+    }
 
-	@Override
-	public boolean use(@NotNull LivingEntity entity, int level) {
-		if (!this.checkTriggerChance(level)) return false;
+    @Override
+    public boolean use(@NotNull LivingEntity entity, int level) {
+        if (!this.checkTriggerChance(level)) return false;
 
-		return this.addEffect(entity, level);
-	}
+        return this.addEffect(entity, level);
+    }
 
-	@Override
-	@NotNull
-	public EnchantmentTarget getItemTarget() {
-		return EnchantmentTarget.TOOL;
-	}
+    @Override
+    @NotNull
+    public EnchantmentTarget getItemTarget() {
+        return EnchantmentTarget.TOOL;
+    }
 }

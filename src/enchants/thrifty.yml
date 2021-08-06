@@ -18,9 +18,9 @@ Loot_Generation:
 Settings:
   Trigger_Chance: '5.0 + %enchantment_level% * 3'
   Ignored_Entity_Types:
-  - WITHER
-  - ENDER_DRAGON
+    - WITHER
+    - ENDER_DRAGON
   Ignored_Spawn_Reasons:
-  - SPAWNER
-  - SPAWN_EGG
-  - DISPENSE_EGG
+    - SPAWNER
+    - SPAWN_EGG
+    - DISPENSE_EGG

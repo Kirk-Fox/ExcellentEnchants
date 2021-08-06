@@ -7,8 +7,8 @@ import su.nightexpress.excellentenchants.ExcellentEnchants;
 import su.nightexpress.excellentenchants.api.enchantment.IEnchantCombatPotionTemplate;
 
 public class EnchantIceAspect extends IEnchantCombatPotionTemplate {
-	
-	public EnchantIceAspect(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-		super(plugin, cfg, PotionEffectType.SLOW);
-	}
+
+    public EnchantIceAspect(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
+        super(plugin, cfg, PotionEffectType.SLOW);
+    }
 }

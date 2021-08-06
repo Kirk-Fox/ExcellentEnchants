@@ -20,65 +20,61 @@ import su.nightexpress.excellentenchants.manager.object.EnchantScaler;
 import java.util.function.UnaryOperator;
 
 public class EnchantVampire extends IEnchantChanceTemplate implements CombatEnchant {
-	
-	private final String enchantParticle;
-	private final Scaler healMod;
-	
-	public EnchantVampire(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-		super(plugin, cfg);
 
-		this.enchantParticle = cfg.getString("Settings.Particle_Effect", Particle.HEART.name());
-		this.healMod = new EnchantScaler(this, "Settings.Heal_Of_Damage");
-	}
+    private final String enchantParticle;
+    private final Scaler healMod;
 
-	@Override
-	protected void updateConfig() {
-		super.updateConfig();
+    public EnchantVampire(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
+        super(plugin, cfg);
 
-		if (cfg.contains("settings.enchant-particle-effect")) {
-			String effect = cfg.getString("settings.enchant-particle-effect", "");
-			String damageModifier = cfg.getString("settings.damage-heal-modifier", "")
-					.replace("%level%", PLACEHOLDER_LEVEL);
+        this.enchantParticle = cfg.getString("Settings.Particle_Effect", Particle.HEART.name());
+        this.healMod = new EnchantScaler(this, "Settings.Heal_Of_Damage");
+    }
 
-			cfg.set("Settings.Particle_Effect", effect);
-			cfg.set("Settings.Heal_Of_Damage", damageModifier);
-			cfg.set("settings.enchant-particle-effect", null);
-			cfg.set("settings.damage-heal-modifier", null);
-		}
-	}
+    @Override
+    protected void updateConfig() {
+        super.updateConfig();
 
-	@Override
-	public @NotNull UnaryOperator<String> replacePlaceholders(int level) {
-		return str -> super.replacePlaceholders(level).apply(str
-				.replace("%modifier%", NumberUT.format(this.getHealthModifier(level) * 100D))
-		);
-	}
+        if (cfg.contains("settings.enchant-particle-effect")) {
+            String effect = cfg.getString("settings.enchant-particle-effect", "");
+            String damageModifier = cfg.getString("settings.damage-heal-modifier", "").replace("%level%", PLACEHOLDER_LEVEL);
 
-	@Override
-	public boolean use(@NotNull EntityDamageByEntityEvent e, @NotNull LivingEntity damager,
-					   @NotNull LivingEntity victim, @NotNull ItemStack weapon, int level) {
-		
-		if (!this.checkTriggerChance(level)) return false;
-		
-		AttributeInstance ai = damager.getAttribute(Attribute.GENERIC_MAX_HEALTH);
-		if (ai == null) return false;
-		
-		double healMod = e.getDamage() * this.getHealthModifier(level);
-		double healMax = NumberUT.round(ai.getValue());
-		
-		damager.setHealth(Math.min(healMax, damager.getHealth() + healMod));
-		
-		EffectUT.playEffect(damager.getEyeLocation(), this.enchantParticle, 0.2f, 0.15f, 0.2f, 0.15f, 5);
-		return true;
-	}
+            cfg.set("Settings.Particle_Effect", effect);
+            cfg.set("Settings.Heal_Of_Damage", damageModifier);
+            cfg.set("settings.enchant-particle-effect", null);
+            cfg.set("settings.damage-heal-modifier", null);
+        }
+    }
 
-	public double getHealthModifier(int level) {
-		return this.healMod.getValue(level);
-	}
+    @Override
+    public @NotNull UnaryOperator<String> replacePlaceholders(int level) {
+        return str -> super.replacePlaceholders(level).apply(str.replace("%modifier%", NumberUT.format(this.getHealthModifier(level) * 100D)));
+    }
 
-	@Override
-	@NotNull
-	public EnchantmentTarget getItemTarget() {
-		return EnchantmentTarget.WEAPON;
-	}
+    @Override
+    public boolean use(@NotNull EntityDamageByEntityEvent e, @NotNull LivingEntity damager, @NotNull LivingEntity victim, @NotNull ItemStack weapon, int level) {
+
+        if (!this.checkTriggerChance(level)) return false;
+
+        AttributeInstance ai = damager.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+        if (ai == null) return false;
+
+        double healMod = e.getDamage() * this.getHealthModifier(level);
+        double healMax = NumberUT.round(ai.getValue());
+
+        damager.setHealth(Math.min(healMax, damager.getHealth() + healMod));
+
+        EffectUT.playEffect(damager.getEyeLocation(), this.enchantParticle, 0.2f, 0.15f, 0.2f, 0.15f, 5);
+        return true;
+    }
+
+    public double getHealthModifier(int level) {
+        return this.healMod.getValue(level);
+    }
+
+    @Override
+    @NotNull
+    public EnchantmentTarget getItemTarget() {
+        return EnchantmentTarget.WEAPON;
+    }
 }

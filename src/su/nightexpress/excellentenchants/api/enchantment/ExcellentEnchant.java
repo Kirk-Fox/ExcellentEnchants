@@ -28,34 +28,34 @@ import java.util.stream.Collectors;
 
 public abstract class ExcellentEnchant extends Enchantment implements IListener {
 
-    public static final String PLACEHOLDER_NAME = "%enchantment_name%";
-    public static final String PLACEHLDER_NAME_FORMATTED = "%enchantment_name_formatted%";
-    public static final String PLACEHOLDER_DESCRIPTION = "%enchantment_description%";
-    public static final String PLACEHOLDER_LEVEL = "%enchantment_level%";
-    public static final String PLACEHOLDER_LEVEL_MIN = "%enchantment_level_min%";
-    public static final String PLACEHOLDER_LEVEL_MAX = "%enchantment_level_max%";
-    public static final String PLACEHOLDER_CONFLICTS = "%enchantment_conflicts%";
-    public static final String PLACEHOLDER_TARGET = "%enchantment_target%";
-    public static final String PLACEHOLDER_TIER = "%enchantment_tier%";
-    public static final String PLACEHOLDER_OBTAIN_CHANCE_ENCHANTING = "%enchantment_obtain_chance_enchanting%";
-    public static final String PLACEHOLDER_OBTAIN_CHANCE_VILLAGER = "%enchantment_obtain_chance_villager%";
+    public static final String PLACEHOLDER_NAME                          = "%enchantment_name%";
+    public static final String PLACEHLDER_NAME_FORMATTED                 = "%enchantment_name_formatted%";
+    public static final String PLACEHOLDER_DESCRIPTION                   = "%enchantment_description%";
+    public static final String PLACEHOLDER_LEVEL                         = "%enchantment_level%";
+    public static final String PLACEHOLDER_LEVEL_MIN                     = "%enchantment_level_min%";
+    public static final String PLACEHOLDER_LEVEL_MAX                     = "%enchantment_level_max%";
+    public static final String PLACEHOLDER_CONFLICTS                     = "%enchantment_conflicts%";
+    public static final String PLACEHOLDER_TARGET                        = "%enchantment_target%";
+    public static final String PLACEHOLDER_TIER                          = "%enchantment_tier%";
+    public static final String PLACEHOLDER_OBTAIN_CHANCE_ENCHANTING      = "%enchantment_obtain_chance_enchanting%";
+    public static final String PLACEHOLDER_OBTAIN_CHANCE_VILLAGER        = "%enchantment_obtain_chance_villager%";
     public static final String PLACEHOLDER_OBTAIN_CHANCE_LOOT_GENERATION = "%enchantment_obtain_chance_loot_generation%";
 
     protected final ExcellentEnchants plugin;
     protected final JYML              cfg;
-    protected final String id;
+    protected final String            id;
 
-    protected String displayName;
-    protected EnchantTier tier;
+    protected String       displayName;
+    protected EnchantTier  tier;
     protected List<String> description;
 
-    private final Set<Enchantment> conflicts;
-    protected     boolean          isTreasure;
-    protected int levelMin;
-    protected int levelMax;
-    protected Scaler levelByEnchantCost;
-    protected Scaler anvilMergeCost;
-    protected Map<ObtainType, Double> obtainChance;
+    private final Set<Enchantment>        conflicts;
+    protected     boolean                 isTreasure;
+    protected     int                     levelMin;
+    protected     int                     levelMax;
+    protected     Scaler                  levelByEnchantCost;
+    protected     Scaler                  anvilMergeCost;
+    protected     Map<ObtainType, Double> obtainChance;
 
     public ExcellentEnchant(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
         super(NamespacedKey.minecraft(cfg.getFile().getName().replace(".yml", "").toLowerCase()));
@@ -96,18 +96,12 @@ public abstract class ExcellentEnchant extends Enchantment implements IListener 
 
         String displayName = cfg.getString("name", this.getId());
         String tier = cfg.getString("tier", Constants.DEFAULT);
-        String description = cfg.getString("description", "")
-                .replace("%chance%", IEnchantChanceTemplate.PLACEHOLDER_CHANCE)
-                .replace("%potion-duration%", IEnchantPotionTemplate.PLACEHOLDER_POTION_DURATION)
-                .replace("%potion-level%", IEnchantPotionTemplate.PLACEHOLDER_POTION_LEVEL)
-                .replace("%potion-effect%", IEnchantPotionTemplate.PLACEHOLDER_POTION_TYPE);
+        String description = cfg.getString("description", "").replace("%chance%", IEnchantChanceTemplate.PLACEHOLDER_CHANCE).replace("%potion-duration%", IEnchantPotionTemplate.PLACEHOLDER_POTION_DURATION).replace("%potion-level%", IEnchantPotionTemplate.PLACEHOLDER_POTION_LEVEL).replace("%potion-effect%", IEnchantPotionTemplate.PLACEHOLDER_POTION_TYPE);
 
         int levelMin = cfg.getInt("level.min");
         int levelMax = cfg.getInt("level.max");
-        String tableLevelMin = cfg.getString("enchantment-table.min-player-level", "1")
-                .replace("%level%", PLACEHOLDER_LEVEL);
-        String anvilMergeCost = cfg.getString("anvil.merge-cost", PLACEHOLDER_LEVEL)
-                .replace("%level%", PLACEHOLDER_LEVEL);
+        String tableLevelMin = cfg.getString("enchantment-table.min-player-level", "1").replace("%level%", PLACEHOLDER_LEVEL);
+        String anvilMergeCost = cfg.getString("anvil.merge-cost", PLACEHOLDER_LEVEL).replace("%level%", PLACEHOLDER_LEVEL);
 
         double tableChance = cfg.getDouble("enchantment-table.chance");
         double villagerChance = this.cfg.getDouble("villagers.chance");
@@ -134,9 +128,7 @@ public abstract class ExcellentEnchant extends Enchantment implements IListener 
 
     @NotNull
     public UnaryOperator<String> replacePlaceholders(int level) {
-        String conflicts = this.getConflicts().isEmpty() ? plugin.lang().Other_None.getMsg()
-                : this.getConflicts().stream().filter(Objects::nonNull)
-                    .map(en -> plugin.lang().getEnchantment(en)).collect(Collectors.joining(", "));
+        String conflicts = this.getConflicts().isEmpty() ? plugin.lang().Other_None.getMsg() : this.getConflicts().stream().filter(Objects::nonNull).map(en -> plugin.lang().getEnchantment(en)).collect(Collectors.joining(", "));
 
         return str -> str
                 .replace(PLACEHOLDER_NAME, this.getDisplayName())
@@ -149,8 +141,7 @@ public abstract class ExcellentEnchant extends Enchantment implements IListener 
                 .replace(PLACEHOLDER_CONFLICTS, conflicts)
                 .replace(PLACEHOLDER_OBTAIN_CHANCE_ENCHANTING, NumberUT.format(this.getObtainChance(ObtainType.ENCHANTING)))
                 .replace(PLACEHOLDER_OBTAIN_CHANCE_VILLAGER, NumberUT.format(this.getObtainChance(ObtainType.VILLAGER)))
-                .replace(PLACEHOLDER_OBTAIN_CHANCE_LOOT_GENERATION, NumberUT.format(this.getObtainChance(ObtainType.LOOT_GENERATION)))
-                ;
+                .replace(PLACEHOLDER_OBTAIN_CHANCE_LOOT_GENERATION, NumberUT.format(this.getObtainChance(ObtainType.LOOT_GENERATION)));
     }
 
     @NotNull
@@ -227,9 +218,7 @@ public abstract class ExcellentEnchant extends Enchantment implements IListener 
     }
 
     public int getLevelByEnchantCost(int expLevel) {
-        Optional<Map.Entry<Integer, Double>> opt = this.levelByEnchantCost.getValues().entrySet()
-                .stream().filter(en -> expLevel >= en.getValue().intValue())
-                .max(Comparator.comparingInt(Map.Entry::getKey));
+        Optional<Map.Entry<Integer, Double>> opt = this.levelByEnchantCost.getValues().entrySet().stream().filter(en -> expLevel >= en.getValue().intValue()).max(Comparator.comparingInt(Map.Entry::getKey));
         return opt.isPresent() ? opt.get().getKey() : Rnd.get(this.getStartLevel(), this.getMaxLevel());
     }
 
@@ -250,7 +239,8 @@ public abstract class ExcellentEnchant extends Enchantment implements IListener 
     public final boolean canEnchantItem(@Nullable ItemStack item) {
         if (item == null) return false;
         if (item.getEnchantments().keySet().stream().anyMatch(e -> e.conflictsWith(this))) return false;
-        if (!item.containsEnchantment(this) && EnchantManager.getItemCustomEnchantsAmount(item) >= Config.ENCHANTMENTS_ITEM_CUSTOM_MAX) return false;
+        if (!item.containsEnchantment(this) && EnchantManager.getItemCustomEnchantsAmount(item) >= Config.ENCHANTMENTS_ITEM_CUSTOM_MAX)
+            return false;
         if (item.getType() == Material.BOOK || item.getType() == Material.ENCHANTED_BOOK) {
             return true;
         }

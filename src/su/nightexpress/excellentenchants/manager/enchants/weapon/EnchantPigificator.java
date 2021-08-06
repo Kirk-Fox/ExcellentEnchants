@@ -19,57 +19,56 @@ import su.nightexpress.excellentenchants.manager.EnchantRegister;
 
 public class EnchantPigificator extends IEnchantChanceTemplate implements CombatEnchant {
 
-	private final String sound;
-	private final String effect;
-	
-	public EnchantPigificator(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-		super(plugin, cfg);
-		
-		this.sound = cfg.getString("Settings.Sound", Sound.ENTITY_PIG_AMBIENT.name());
-		this.effect = cfg.getString("Settings.Particle_Effect", Particle.HEART.name());
-	}
+    private final String sound;
+    private final String effect;
 
-	@Override
-	protected void addConflicts() {
-		super.addConflicts();
-		this.addConflict(EnchantRegister.THUNDER);
-	}
+    public EnchantPigificator(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
+        super(plugin, cfg);
 
-	@Override
-	protected void updateConfig() {
-		super.updateConfig();
+        this.sound = cfg.getString("Settings.Sound", Sound.ENTITY_PIG_AMBIENT.name());
+        this.effect = cfg.getString("Settings.Particle_Effect", Particle.HEART.name());
+    }
 
-		if (cfg.contains("settings.effect-particle")) {
-			String effect = cfg.getString("settings.effect-particle", "");
-			String sound = cfg.getString("settings.effect-sound");
+    @Override
+    protected void addConflicts() {
+        super.addConflicts();
+        this.addConflict(EnchantRegister.THUNDER);
+    }
 
-			cfg.set("Settings.Particle_Effect", effect);
-			cfg.set("Settings.Sound", sound);
-			cfg.set("settings.effect-particle", null);
-			cfg.set("settings.effect-sound", null);
-		}
-	}
+    @Override
+    protected void updateConfig() {
+        super.updateConfig();
 
-	@Override
-	public boolean use(@NotNull EntityDamageByEntityEvent e, @NotNull LivingEntity damager,
-					   @NotNull LivingEntity victim, @NotNull ItemStack weapon, int level) {
-		
-		if (!(victim instanceof PigZombie)) return false;
-		if (!this.checkTriggerChance(level)) return false;
-		
-		e.setCancelled(true);
-		
-		EffectUT.playEffect(victim.getLocation(), this.effect, 0.25, 0.25, 0.25, 0.1f, 30);
-		MsgUT.sound(victim.getLocation(), this.sound);
-		
-		victim.getWorld().spawn(victim.getLocation(), Pig.class);
-		victim.remove();
-		return true;
-	}
+        if (cfg.contains("settings.effect-particle")) {
+            String effect = cfg.getString("settings.effect-particle", "");
+            String sound = cfg.getString("settings.effect-sound");
 
-	@Override
-	@NotNull
-	public EnchantmentTarget getItemTarget() {
-		return EnchantmentTarget.WEAPON;
-	}
+            cfg.set("Settings.Particle_Effect", effect);
+            cfg.set("Settings.Sound", sound);
+            cfg.set("settings.effect-particle", null);
+            cfg.set("settings.effect-sound", null);
+        }
+    }
+
+    @Override
+    public boolean use(@NotNull EntityDamageByEntityEvent e, @NotNull LivingEntity damager, @NotNull LivingEntity victim, @NotNull ItemStack weapon, int level) {
+
+        if (!(victim instanceof PigZombie)) return false;
+        if (!this.checkTriggerChance(level)) return false;
+
+        e.setCancelled(true);
+
+        EffectUT.playEffect(victim.getLocation(), this.effect, 0.25, 0.25, 0.25, 0.1f, 30);
+        MsgUT.sound(victim.getLocation(), this.sound);
+
+        victim.getWorld().spawn(victim.getLocation(), Pig.class);
+        victim.remove();
+        return true;
+    }
+
+    @Override
+    @NotNull
+    public EnchantmentTarget getItemTarget() {
+        return EnchantmentTarget.WEAPON;
+    }
 }

@@ -13,21 +13,20 @@ import su.nightexpress.excellentenchants.api.enchantment.type.CombatEnchant;
 
 public class EnchantHardened extends IEnchantPotionTemplate implements CombatEnchant {
 
-	public EnchantHardened(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-		super(plugin, cfg, PotionEffectType.DAMAGE_RESISTANCE);
-	}
+    public EnchantHardened(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
+        super(plugin, cfg, PotionEffectType.DAMAGE_RESISTANCE);
+    }
 
-	@Override
-	@NotNull
-	public EnchantmentTarget getItemTarget() {
-		return EnchantmentTarget.ARMOR_TORSO;
-	}
+    @Override
+    @NotNull
+    public EnchantmentTarget getItemTarget() {
+        return EnchantmentTarget.ARMOR_TORSO;
+    }
 
-	@Override
-	public boolean use(@NotNull EntityDamageByEntityEvent e, @NotNull LivingEntity damager,
-					   @NotNull LivingEntity victim, @NotNull ItemStack weapon, int level) {
-		if (!this.checkTriggerChance(level)) return false;
+    @Override
+    public boolean use(@NotNull EntityDamageByEntityEvent e, @NotNull LivingEntity damager, @NotNull LivingEntity victim, @NotNull ItemStack weapon, int level) {
+        if (!this.checkTriggerChance(level)) return false;
 
-		return this.addEffect(victim, level);
-	}
+        return this.addEffect(victim, level);
+    }
 }
