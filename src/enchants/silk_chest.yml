@@ -1,0 +1,21 @@
+Is_Treasure: false
+Name: Silk Chest
+Tier: rare
+Description:
+  - 'Drop chests and saves all its content.'
+Level:
+  Min: 1
+  Max: 1
+Anvil:
+  Merge_Cost: '%enchantment_level%'
+Enchantment_Table:
+  Level_By_Exp_Cost: '30'
+  Chance: 25.0
+Villagers:
+  Chance: 25.0
+Loot_Generation:
+  Chance: 25.0
+Settings:
+  Trigger_Chance: '100.0'
+  Chest_Item:
+    Name: '&f%name% &7(%items% items)'

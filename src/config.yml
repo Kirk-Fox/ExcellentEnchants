@@ -1,0 +1,83 @@
+core:
+  command-aliases: excellentenchants,eenchants
+  lang: en
+  prefix: ExcellentEnchants
+
+General:
+  Tasks:
+    Arrow_Trails:
+      Ticks_Interval: 1
+    Passive_Enchants:
+      Ticks_Interval: 400
+  Enchantments:
+    Disabled:
+      - enchant_name
+      - other_enchant
+    Item:
+      Max_Custom_Enchants: 3
+      Axes_As_Swords: true
+      Crossbows_As_Bows: true
+      Elytra_As_Chestplate: true
+    Entity:
+      Passive_Enchants_Applied_To_Mobs: false
+    Description:
+      Enabled: true
+      Format: '&8▸ %description%'
+  Enchanting_Table:
+    Enabled: true
+    Enchantments:
+      Total_Maximum: 4
+      Custom_Generation_Chance: 75.0
+      Custom_Minimum: 0
+      Custom_Maximum: 2
+  Villagers:
+    Enabled: true
+    Enchantments:
+      Total_Maximum: 4
+      Custom_Generation_Chance: 50.0
+      Custom_Minimum: 0
+      Custom_Maximum: 2
+  Loot_Generation:
+    Enabled: true
+    Enchantments:
+      Total_Maximum: 4
+      Custom_Generation_Chance: 65.0
+      Custom_Minimum: 0
+      Custom_Maximum: 2
+
+Tiers:
+  default:
+    Name: '&7Default'
+    Color: '&7'
+    Obtain_Chance:
+      ENCHANTING: 80.0
+      VILLAGER: 80.0
+      LOOT_GENERATION: 80.0
+  common:
+    Name: '&fCommon'
+    Color: '&f'
+    Obtain_Chance:
+      ENCHANTING: 60.0
+      VILLAGER: 60.0
+      LOOT_GENERATION: 60.0
+  rare:
+    Name: '&aRare'
+    Color: '&a'
+    Obtain_Chance:
+      ENCHANTING: 45.0
+      VILLAGER: 45.0
+      LOOT_GENERATION: 45.0
+  exotic:
+    Name: '&9Exotic'
+    Color: '&9'
+    Obtain_Chance:
+      ENCHANTING: 20.0
+      VILLAGER: 20.0
+      LOOT_GENERATION: 20.0
+  legendary:
+    Name: '&6Legendary'
+    Color: '&6'
+    Obtain_Chance:
+      ENCHANTING: 5.0
+      VILLAGER: 5.0
+      LOOT_GENERATION: 5.0

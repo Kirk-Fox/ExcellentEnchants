@@ -1,0 +1,23 @@
+Is_Treasure: false
+Name: Village Defender
+Tier: common
+Description:
+  - '%enchantment_trigger_chance%% chance to inflict %damage% more damage on Pillagers.'
+Level:
+  Min: 1
+  Max: 4
+Anvil:
+  Merge_Cost: '%enchantment_level%'
+Enchantment_Table:
+  Level_By_Exp_Cost: '7 * %enchantment_level%'
+  Chance: 75.0
+Villagers:
+  Chance: 75.0
+Loot_Generation:
+  Chance: 45.0
+Settings:
+  Trigger_Chance: '100.0'
+  Particle_Effect: 'VILLAGER_ANGRY'
+  Damage:
+    As_Modifier: false
+    Formula: '0.75 * %enchantment_level%'

@@ -1,0 +1,19 @@
+main: su.nightexpress.excellentenchants.ExcellentEnchants
+version: 3.0.3
+name: ExcellentEnchants
+author: NightExpress
+desciption: Vanilla-like enchants for your server.
+depend: [NexEngine]
+api-version: 1.15
+load: STARTUP
+
+permissions:
+  excellentenchants.admin:
+    description: Grants access to all plugin functions.
+    default: op
+    children:
+      excellentenchants.user: true
+
+  excellentenchants.user:
+    description: Grants access to basic player plugin functions.
+    default: true

@@ -1,0 +1,21 @@
+Is_Treasure: false
+Name: Pigificator
+Tier: common
+Description:
+  - '%enchantment_trigger_chance%% chance to turn Piglins back to Pigs on hit.'
+Level:
+  Min: 1
+  Max: 5
+Anvil:
+  Merge_Cost: '%enchantment_level%'
+Enchantment_Table:
+  Level_By_Exp_Cost: '5 * %enchantment_level%'
+  Chance: 60.0
+Villagers:
+  Chance: 60.0
+Loot_Generation:
+  Chance: 60.0
+Settings:
+  Trigger_Chance: '20.0 + %enchantment_level% * 8'
+  Particle_Effect: 'CLOUD'
+  Sound: 'ENTITY_PIG_AMBIENT'

@@ -1,0 +1,22 @@
+Is_Treasure: false
+Name: Cold Steel
+Tier: rare
+Description:
+  - '%enchantment_trigger_chance%% chance to apply %enchantment_potion_type% %enchantment_potion_level% for %enchantment_potion_duration%s. to attacker.'
+Level:
+  Min: 1
+  Max: 3
+Anvil:
+  Merge_Cost: '%enchantment_level%'
+Enchantment_Table:
+  Level_By_Exp_Cost: '9 * %enchantment_level%'
+  Chance: 40.0
+Villagers:
+  Chance: 40.0
+Loot_Generation:
+  Chance: 40.0
+Settings:
+  Trigger_Chance: '60.0 + %enchantment_level% * 5'
+  Potion_Effect:
+    Duration: 4.0 + %enchantment_level%
+    Level: '%enchantment_level%'

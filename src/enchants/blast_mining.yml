@@ -1,0 +1,21 @@
+Is_Treasure: false
+Name: Blast Mining
+Tier: rare
+Description:
+  - '%enchantment_trigger_chance%% chance to create an x%power% power explosion.'
+Level:
+  Min: 1
+  Max: 3
+Anvil:
+  Merge_Cost: '%enchantment_level%'
+Enchantment_Table:
+  Level_By_Exp_Cost: '9.0 * %enchantment_level%'
+  Chance: 50.0
+Villagers:
+  Chance: 40.0
+Loot_Generation:
+  Chance: 30.0
+Settings:
+  Trigger_Chance: 25.0 * %enchantment_level%
+  Explosion:
+    Power: 2 + %enchantment_level%

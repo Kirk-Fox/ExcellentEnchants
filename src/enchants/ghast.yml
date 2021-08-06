@@ -1,0 +1,19 @@
+Is_Treasure: false
+Name: Ghast
+Tier: common
+Description:
+  - '%enchantment_trigger_chance%% chance to launch Fireball.'
+Level:
+  Min: 1
+  Max: 1
+Anvil:
+  Merge_Cost: '%enchantment_level%'
+Enchantment_Table:
+  Level_By_Exp_Cost: '9 * %enchantment_level%'
+  Chance: 45.0
+Villagers:
+  Chance: 45.0
+Loot_Generation:
+  Chance: 45.0
+Settings:
+  Trigger_Chance: '100.0'

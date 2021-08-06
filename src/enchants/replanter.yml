@@ -1,0 +1,22 @@
+Is_Treasure: false
+Name: Replanter
+Tier: common
+Description:
+  - 'Automatically replant crops on click.'
+Level:
+  Min: 1
+  Max: 1
+Anvil:
+  Merge_Cost: '%enchantment_level%'
+Enchantment_Table:
+  Level_By_Exp_Cost: '15'
+  Chance: 70.0
+Villagers:
+  Chance: 70.0
+Loot_Generation:
+  Chance: 70.0
+Settings:
+  Trigger_Chance: '100.0'
+  Replant:
+    On_Right_Click: true
+    On_Plant_Break: true

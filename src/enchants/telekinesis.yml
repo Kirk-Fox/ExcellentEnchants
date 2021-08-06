@@ -1,0 +1,23 @@
+Is_Treasure: false
+Name: Telekinesis
+Tier: rare
+Description:
+  - 'Moves all items towards you in %radius% block radius.'
+Level:
+  Min: 1
+  Max: 3
+Anvil:
+  Merge_Cost: '%enchantment_level%'
+Enchantment_Table:
+  Level_By_Exp_Cost: '9 * %enchantment_level%'
+  Chance: 50.0
+Villagers:
+  Chance: 50.0
+Loot_Generation:
+  Chance: 50.0
+Settings:
+  Trigger_Chance: '100.0'
+  Radius:
+    Horizontal: '2.0 + %enchantment_level%'
+    Vertical: '0.5 + %enchantment_level% / 2'
+  Power: '1.2 + %enchantment_level% / 5'

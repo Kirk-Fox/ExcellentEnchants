@@ -1,0 +1,26 @@
+Is_Treasure: false
+Name: Treasures
+Tier: exotic
+Description:
+  - '%enchantment_trigger_chance%% chance to find additional loot when mining/digging.'
+Level:
+  Min: 1
+  Max: 4
+Anvil:
+  Merge_Cost: '%enchantment_level%'
+Enchantment_Table:
+  Level_By_Exp_Cost: '7 * %enchantment_level%'
+  Chance: 25.0
+Villagers:
+  Chance: 20.0
+Loot_Generation:
+  Chance: 20.0
+Settings:
+  Trigger_Chance: '1.0 + %enchantment_level% / 2.0'
+  Particle_Effect: 'VILLAGER_HAPPY'
+  Sound: 'BLOCK_NOTE_BLOCK_BELL'
+  Treasures:
+    STONE:
+      BONE: 10.0
+    DIRT:
+      GLOWSTONE_DUST: 5.0

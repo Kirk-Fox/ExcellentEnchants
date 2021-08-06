@@ -1,0 +1,21 @@
+Is_Treasure: false
+Name: Vampire
+Tier: exotic
+Description:
+  - '%enchantment_trigger_chance%% chance to heal yourself for %modifier%% of damage on hit.'
+Level:
+  Min: 1
+  Max: 4
+Anvil:
+  Merge_Cost: '%enchantment_level%'
+Enchantment_Table:
+  Level_By_Exp_Cost: '7 * %enchantment_level%'
+  Chance: 15.0
+Villagers:
+  Chance: 15.0
+Loot_Generation:
+  Chance: 15.0
+Settings:
+  Trigger_Chance: '20.0 + %enchantment_level% * 10.0'
+  Particle_Effect: 'HEART'
+  Heal_Of_Damage: '0.1 + %enchantment_level% / 20.0'

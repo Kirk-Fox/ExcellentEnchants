@@ -1,0 +1,23 @@
+Is_Treasure: false
+Name: Smelter
+Tier: rare
+Description:
+  - '%enchantment_trigger_chance%% chance to smelt ore on mining.'
+Level:
+  Min: 1
+  Max: 5
+Anvil:
+  Merge_Cost: '%enchantment_level%'
+Enchantment_Table:
+  Level_By_Exp_Cost: '5 * %enchantment_level%'
+  Chance: 60.0
+Villagers:
+  Chance: 60.0
+Loot_Generation:
+  Chance: 60.0
+Settings:
+  Trigger_Chance: '25.0 + %enchantment_level% * 10'
+  Smelting_Table:
+    IRON_ORE: IRON_INGOT
+    GOLD_ORE: GOLD_INGOT
+    SAND: GLASS

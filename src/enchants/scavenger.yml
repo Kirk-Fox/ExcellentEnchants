@@ -1,0 +1,28 @@
+Is_Treasure: false
+Name: Scavenger
+Tier: exotic
+Description:
+  - '%enchantment_trigger_chance%% chance to obtain additional loot from mobs.'
+Level:
+  Min: 1
+  Max: 4
+Anvil:
+  Merge_Cost: '%enchantment_level%'
+Enchantment_Table:
+  Level_By_Exp_Cost: '7 * %enchantment_level%'
+  Chance: 25.0
+Villagers:
+  Chance: 25.0
+Loot_Generation:
+  Chance: 25.0
+Settings:
+  Trigger_Chance: '15.0 + %enchantment_level% * 10'
+  Treasures:
+    VILLAGER:
+      EMERALD:
+        Amount: '1:1'
+        Chance: 5.0
+    SKELETON:
+      BONE_MEAL:
+        Amount: '1:2'
+        Chance: 50.0

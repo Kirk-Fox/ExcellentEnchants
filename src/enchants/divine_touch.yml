@@ -1,0 +1,22 @@
+Is_Treasure: false
+Name: Divine Touch
+Tier: legendary
+Description:
+  - '%enchantment_trigger_chance%% chance to obtain &fMob Spawner&8.'
+Level:
+  Min: 1
+  Max: 5
+Anvil:
+  Merge_Cost: '%enchantment_level%'
+Enchantment_Table:
+  Level_By_Exp_Cost: '6 * %enchantment_level%'
+  Chance: 5.0
+Villagers:
+  Chance: 6.0
+Loot_Generation:
+  Chance: 8.0
+Settings:
+  Trigger_Chance: '15.0 * %enchantment_level%'
+  Particle_Effect: 'VILLAGER_HAPPY'
+  Spawner_Item:
+    Name: '&aMob Spawner &7(%type%)'

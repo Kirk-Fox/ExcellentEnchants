@@ -1,0 +1,20 @@
+Is_Treasure: false
+Name: Rocket
+Tier: exotic
+Description:
+  - '%enchantment_trigger_chance%% chance to launch your enemy into the space.'
+Level:
+  Min: 1
+  Max: 3
+Anvil:
+  Merge_Cost: '%enchantment_level%'
+Enchantment_Table:
+  Level_By_Exp_Cost: '9 * %enchantment_level%'
+  Chance: 45.0
+Villagers:
+  Chance: 45.0
+Loot_Generation:
+  Chance: 45.0
+Settings:
+  Trigger_Chance: '3.0 + %enchantment_level%'
+  Firework_Power: '%enchantment_level%'

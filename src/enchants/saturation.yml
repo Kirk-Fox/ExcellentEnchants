@@ -1,0 +1,21 @@
+Is_Treasure: false
+Name: Saturation
+Tier: rare
+Description:
+  - 'Restores %amount% food points every few seconds with %enchantment_trigger_chance%% chance.'
+Level:
+  Min: 1
+  Max: 5
+Anvil:
+  Merge_Cost: '%enchantment_level%'
+Enchantment_Table:
+  Level_By_Exp_Cost: '6 * %enchantment_level%'
+  Chance: 40.0
+Villagers:
+  Chance: 40.0
+Loot_Generation:
+  Chance: 40.0
+Settings:
+  Trigger_Chance: '25.0 + %enchantment_level% * 5'
+  Saturation:
+    Amount: '%enchantment_level%'

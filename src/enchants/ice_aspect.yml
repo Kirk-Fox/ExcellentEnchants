@@ -1,0 +1,23 @@
+Is_Treasure: false
+Name: Ice Aspect
+Tier: common
+Description:
+  - '%enchantment_trigger_chance%% chance to apply %enchantment_potion_type% %enchantment_potion_level% for %enchantment_potion_duration%s. on hit.'
+Level:
+  Min: 1
+  Max: 3
+Anvil:
+  Merge_Cost: '%enchantment_level%'
+Enchantment_Table:
+  Level_By_Exp_Cost: '9 * %enchantment_level%'
+  Chance: 65.0
+Villagers:
+  Chance: 65.0
+Loot_Generation:
+  Chance: 65.0
+Settings:
+  Trigger_Chance: '25.0 * %enchantment_level%'
+  Potion_Effect:
+    Duration: '3.5 + %enchantment_level%'
+    Level: '%enchantment_level%'
+  Particle_Effect: 'BLOCK_CRACK:ICE'

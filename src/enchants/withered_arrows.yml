@@ -1,0 +1,24 @@
+Is_Treasure: false
+Name: Withered Arrows
+Tier: rare
+Description:
+  - '%enchantment_trigger_chance%% chance to launch %enchantment_potion_type% %enchantment_potion_level% arrow with %enchantment_potion_duration%s. duration.'
+Level:
+  Min: 1
+  Max: 3
+Anvil:
+  Merge_Cost: '%enchantment_level%'
+Enchantment_Table:
+  Level_By_Exp_Cost: '9 * %enchantment_level%'
+  Chance: 20.0
+Villagers:
+  Chance: 20.0
+Loot_Generation:
+  Chance: 20.0
+Settings:
+  Trigger_Chance: '15.0 + %enchantment_level% * 5.0'
+  Potion_Effect:
+    Duration: '3.0 + %enchantment_level%'
+    Level: '%enchantment_level%'
+  Arrow:
+    Trail: SPELL_WITCH

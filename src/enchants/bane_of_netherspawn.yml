@@ -1,0 +1,23 @@
+Name: Bane of Netherspawn
+Tier: common
+Description:
+  - '%enchantment_trigger_chance%% chance to inflict %damage% more damage to Nether mobs.'
+Is_Treasure: false
+Level:
+  Min: 1
+  Max: 5
+Anvil:
+  Merge_Cost: '%enchantment_level%'
+Enchantment_Table:
+  Level_By_Exp_Cost: '5 * %enchantment_level%'
+  Chance: 80.0
+Villagers:
+  Chance: 80.0
+Loot_Generation:
+  Chance: 85.0
+Settings:
+  Trigger_Chance: '100.0'
+  Particle_Effect: BLOCK_CRACK:LAVA
+  Damage:
+    As_Modifier: false
+    Formula: 0.5 * %enchantment_level%

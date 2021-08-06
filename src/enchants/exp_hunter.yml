@@ -1,0 +1,20 @@
+Is_Treasure: false
+Name: Exp Hunter
+Tier: rare
+Description:
+  - '%enchantment_trigger_chance%% chance to obtain +%exp%% more exp from mobs.'
+Level:
+  Min: 1
+  Max: 5
+Anvil:
+  Merge_Cost: '%enchantment_level%'
+Enchantment_Table:
+  Level_By_Exp_Cost: '6 * %enchantment_level%'
+  Chance: 20.0
+Villagers:
+  Chance: 20.0
+Loot_Generation:
+  Chance: 20.0
+Settings:
+  Trigger_Chance: '50.0 + %enchantment_level% * 5'
+  Exp_Modifier: '1.5 + %enchantment_level% / 10.0'

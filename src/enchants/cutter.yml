@@ -1,0 +1,21 @@
+Is_Treasure: false
+Name: Cutter
+Tier: exotic
+Description:
+  - '%enchantment_trigger_chance%% chance to throw away enemy''s armor and damage it for %damage%%.'
+Level:
+  Min: 1
+  Max: 5
+Anvil:
+  Merge_Cost: '%enchantment_level%'
+Enchantment_Table:
+  Level_By_Exp_Cost: '6 * %enchantment_level%'
+  Chance: 15.0
+Villagers:
+  Chance: 15.0
+Loot_Generation:
+  Chance: 15.0
+Settings:
+  Trigger_Chance: '1.0 + %enchantment_level% * 0.6'
+  Item:
+    Durability_Reduction: '1.0 + %enchantment_level% / 12.0'

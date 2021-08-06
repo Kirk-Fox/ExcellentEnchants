@@ -1,0 +1,21 @@
+Is_Treasure: false
+Name: Double Strike
+Tier: legendary
+Description:
+  - '%enchantment_trigger_chance%% chance to inflict double damage.'
+Level:
+  Min: 1
+  Max: 4
+Anvil:
+  Merge_Cost: '%enchantment_level%'
+Enchantment_Table:
+  Level_By_Exp_Cost: '7 * %enchantment_level%'
+  Chance: 12.0
+Villagers:
+  Chance: 12.0
+Loot_Generation:
+  Chance: 12.0
+Settings:
+  Trigger_Chance: '4.0 + %enchantment_level% * 0.8'
+  Particle_Effect: 'EXPLOSION_NORMAL'
+  Sound: 'ENTITY_GENERIC_EXPLODE'

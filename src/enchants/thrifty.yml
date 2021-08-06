@@ -1,0 +1,26 @@
+Is_Treasure: false
+Name: Thrifty
+Tier: exotic
+Description:
+  - '%enchantment_trigger_chance%% chance to obtain mob Spawn Egg on kill.'
+Level:
+  Min: 1
+  Max: 3
+Anvil:
+  Merge_Cost: '%enchantment_level%'
+Enchantment_Table:
+  Level_By_Exp_Cost: '9 * %enchantment_level%'
+  Chance: 25.0
+Villagers:
+  Chance: 25.0
+Loot_Generation:
+  Chance: 25.0
+Settings:
+  Trigger_Chance: '5.0 + %enchantment_level% * 3'
+  Ignored_Entity_Types:
+  - WITHER
+  - ENDER_DRAGON
+  Ignored_Spawn_Reasons:
+  - SPAWNER
+  - SPAWN_EGG
+  - DISPENSE_EGG
