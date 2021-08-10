@@ -15,6 +15,7 @@ import su.nexmedia.engine.utils.LocUT;
 import su.nightexpress.excellentenchants.ExcellentEnchants;
 import su.nightexpress.excellentenchants.api.enchantment.IEnchantChanceTemplate;
 import su.nightexpress.excellentenchants.api.enchantment.type.BlockEnchant;
+import su.nightexpress.excellentenchants.hooks.HookNCP;
 
 public class EnchantTunnel extends IEnchantChanceTemplate implements BlockEnchant {
 
@@ -110,8 +111,10 @@ public class EnchantTunnel extends IEnchantChanceTemplate implements BlockEnchan
             if (addType == Material.OBSIDIAN && addType != block.getType()) continue;
 
             // Add metadata to tool to prevent new block breaking event from triggering mining again
+            HookNCP.exemptBlocks(player);
             player.setMetadata(LOOP_FIX, new FixedMetadataValue(plugin, true));
             plugin.getNMS().breakBlock(player, blockAdd);
+            HookNCP.unexemptBlocks(player);
         }
         return true;
     }

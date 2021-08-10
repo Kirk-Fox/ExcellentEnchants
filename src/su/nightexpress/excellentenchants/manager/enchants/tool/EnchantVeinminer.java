@@ -14,6 +14,7 @@ import su.nexmedia.engine.utils.ItemUT;
 import su.nightexpress.excellentenchants.ExcellentEnchants;
 import su.nightexpress.excellentenchants.api.enchantment.ExcellentEnchant;
 import su.nightexpress.excellentenchants.api.enchantment.type.BlockEnchant;
+import su.nightexpress.excellentenchants.hooks.HookNCP;
 import su.nightexpress.excellentenchants.manager.EnchantRegister;
 import su.nightexpress.excellentenchants.manager.object.EnchantScaler;
 
@@ -107,7 +108,10 @@ public class EnchantVeinminer extends ExcellentEnchant implements BlockEnchant {
         if (block.hasMetadata(META_ORE_MINED)) return false;
 
         if (!this.getBlocksAffected().contains(block.getType())) return false;
+
+        HookNCP.unexemptBlocks(player);
         this.vein(player, block, level);
+        HookNCP.unexemptBlocks(player);
 
         return true;
     }
