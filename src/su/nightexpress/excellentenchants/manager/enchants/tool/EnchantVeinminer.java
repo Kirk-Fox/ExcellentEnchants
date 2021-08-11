@@ -109,7 +109,7 @@ public class EnchantVeinminer extends ExcellentEnchant implements BlockEnchant {
 
         if (!this.getBlocksAffected().contains(block.getType())) return false;
 
-        HookNCP.unexemptBlocks(player);
+        HookNCP.exemptBlocks(player);
         this.vein(player, block, level);
         HookNCP.unexemptBlocks(player);
 

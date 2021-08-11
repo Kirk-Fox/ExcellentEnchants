@@ -87,6 +87,7 @@ public class EnchantTunnel extends IEnchantChanceTemplate implements BlockEnchan
         }
 
         //int expDrop = e.getExpToDrop();
+        HookNCP.exemptBlocks(player);
         for (int i = 0; i < blocksBroken; i++) {
             if (ItemUT.isAir(item)) break;
 
@@ -111,11 +112,10 @@ public class EnchantTunnel extends IEnchantChanceTemplate implements BlockEnchan
             if (addType == Material.OBSIDIAN && addType != block.getType()) continue;
 
             // Add metadata to tool to prevent new block breaking event from triggering mining again
-            HookNCP.exemptBlocks(player);
             player.setMetadata(LOOP_FIX, new FixedMetadataValue(plugin, true));
             plugin.getNMS().breakBlock(player, blockAdd);
-            HookNCP.unexemptBlocks(player);
         }
+        HookNCP.unexemptBlocks(player);
         return true;
     }
 }
