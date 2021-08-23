@@ -33,8 +33,10 @@ public abstract class IEnchantPotionTemplate extends IEnchantChanceTemplate {
     protected       Scaler           potionLevel;
     protected final boolean          isParticles;
 
-    public IEnchantPotionTemplate(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg, @NotNull PotionEffectType potionType) {
-        super(plugin, cfg);
+    public IEnchantPotionTemplate(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg,
+                                  @NotNull EnchantPriority priority,
+                                  @NotNull PotionEffectType potionType) {
+        super(plugin, cfg, priority);
         this.payEnabled = cfg.getBoolean("Settings.Cost.Enabled");
         this.payItem = cfg.getItem("Settings.Cost.Item");
         this.potionType = potionType;

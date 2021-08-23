@@ -14,6 +14,7 @@ import su.nexmedia.engine.manager.leveling.Scaler;
 import su.nexmedia.engine.utils.ItemUT;
 import su.nexmedia.engine.utils.NumberUT;
 import su.nightexpress.excellentenchants.ExcellentEnchants;
+import su.nightexpress.excellentenchants.api.enchantment.EnchantPriority;
 import su.nightexpress.excellentenchants.api.enchantment.IEnchantChanceTemplate;
 import su.nightexpress.excellentenchants.manager.object.EnchantScaler;
 
@@ -24,7 +25,7 @@ public class EnchantInfernus extends IEnchantChanceTemplate {
     private final Scaler fireTicks;
 
     public EnchantInfernus(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-        super(plugin, cfg);
+        super(plugin, cfg, EnchantPriority.MEDIUM);
 
         this.fireTicks = new EnchantScaler(this, "Settings.Fire_Ticks");
     }

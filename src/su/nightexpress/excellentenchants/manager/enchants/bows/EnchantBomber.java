@@ -11,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import su.nexmedia.engine.config.api.JYML;
 import su.nightexpress.excellentenchants.ExcellentEnchants;
+import su.nightexpress.excellentenchants.api.enchantment.EnchantPriority;
 import su.nightexpress.excellentenchants.api.enchantment.IEnchantChanceTemplate;
 import su.nightexpress.excellentenchants.api.enchantment.type.BowEnchant;
 import su.nightexpress.excellentenchants.manager.EnchantRegister;
@@ -21,7 +22,7 @@ public class EnchantBomber extends IEnchantChanceTemplate implements BowEnchant 
     private final EnchantScaler fuseTicks;
 
     public EnchantBomber(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-        super(plugin, cfg);
+        super(plugin, cfg, EnchantPriority.MEDIUM);
 
         this.fuseTicks = new EnchantScaler(this, "Settings.Fuse_Ticks");
     }

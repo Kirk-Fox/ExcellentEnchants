@@ -15,8 +15,10 @@ public abstract class IEnchantCombatPotionTemplate extends IEnchantPotionTemplat
 
     protected String particleEffect;
 
-    public IEnchantCombatPotionTemplate(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg, @NotNull PotionEffectType effectType) {
-        super(plugin, cfg, effectType);
+    public IEnchantCombatPotionTemplate(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg,
+                                        @NotNull EnchantPriority priority,
+                                        @NotNull PotionEffectType effectType) {
+        super(plugin, cfg, priority, effectType);
 
         this.particleEffect = cfg.getString("Settings.Particle_Effect", "");
     }

@@ -8,13 +8,14 @@ import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 import su.nexmedia.engine.config.api.JYML;
 import su.nightexpress.excellentenchants.ExcellentEnchants;
+import su.nightexpress.excellentenchants.api.enchantment.EnchantPriority;
 import su.nightexpress.excellentenchants.api.enchantment.IEnchantPotionTemplate;
 import su.nightexpress.excellentenchants.api.enchantment.type.CombatEnchant;
 
 public class EnchantHardened extends IEnchantPotionTemplate implements CombatEnchant {
 
     public EnchantHardened(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-        super(plugin, cfg, PotionEffectType.DAMAGE_RESISTANCE);
+        super(plugin, cfg, EnchantPriority.MEDIUM, PotionEffectType.DAMAGE_RESISTANCE);
     }
 
     @Override

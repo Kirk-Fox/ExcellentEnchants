@@ -128,27 +128,15 @@ public class EnchantManager extends AbstractManager<ExcellentEnchants> {
     }
 
     public static void updateItemLoreEnchants(@NotNull ItemStack item) {
-        ItemMeta meta = item.getItemMeta();
-        if (meta == null) return;
-
-        Map<Enchantment, Integer> enchants;
-        if (meta instanceof EnchantmentStorageMeta meta2) {
-            enchants = meta2.getStoredEnchants();
-        }
-        else {
-            enchants = meta.getEnchants();
-        }
-
         EnchantRegister.ENCHANT_LIST.forEach(ench -> {
             ItemUT.delLore(item, ench.getId());
             ItemUT.delLore(item, ench.getId() + "_info");
         });
 
         // Filter custom enchants and define map order.
-        Map<ExcellentEnchant, Integer> excellents = enchants.entrySet().stream()
-                .filter(e -> e.getKey() instanceof ExcellentEnchant)
-                .sorted(Comparator.comparing(e -> ((ExcellentEnchant) e.getKey()).getTier().getName()))
-                .collect(Collectors.toMap(k -> (ExcellentEnchant) k.getKey(), Map.Entry::getValue, (has, add) -> add, LinkedHashMap::new));
+        Map<ExcellentEnchant, Integer> excellents = getItemCustomEnchants(item).entrySet().stream()
+                .sorted((e1,e2) -> e2.getKey().getTier().getPriority() - e1.getKey().getTier().getPriority())
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (has, add) -> add, LinkedHashMap::new));
 
         excellents.forEach((excellent, level) -> {
             ItemUT.addLore(item, excellent.getId(), excellent.getNameFormatted(level), 0);
@@ -203,13 +191,20 @@ public class EnchantManager extends AbstractManager<ExcellentEnchants> {
 
     @NotNull
     public static Map<ExcellentEnchant, Integer> getItemCustomEnchants(@NotNull ItemStack item) {
-        return EnchantManager.getItemEnchants(item).entrySet().stream().filter(entry -> entry.getKey() instanceof ExcellentEnchant).collect(Collectors.toMap(k -> (ExcellentEnchant) k.getKey(), Map.Entry::getValue));
+        return EnchantManager.getItemEnchants(item).entrySet().stream()
+                .filter(entry -> entry.getKey() instanceof ExcellentEnchant)
+                .map(entry -> new AbstractMap.SimpleEntry<>((ExcellentEnchant) entry.getKey(), entry.getValue()))
+                .sorted((e1,e2) -> e2.getKey().getPriority().ordinal() - e1.getKey().getPriority().ordinal())
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (old, nev) -> nev, LinkedHashMap::new));
     }
 
     @SuppressWarnings("unchecked")
     @NotNull
     public static <T> Map<T, Integer> getItemCustomEnchants(@NotNull ItemStack item, @NotNull Class<T> clazz) {
-        return EnchantManager.getItemCustomEnchants(item).entrySet().stream().filter(entry -> clazz.isAssignableFrom(entry.getKey().getClass())).collect(Collectors.toMap(k -> (T) k.getKey(), Map.Entry::getValue));
+        return EnchantManager.getItemCustomEnchants(item).entrySet().stream()
+                .filter(entry -> clazz.isAssignableFrom(entry.getKey().getClass()))
+                .sorted((e1,e2) -> e2.getKey().getPriority().ordinal() - e1.getKey().getPriority().ordinal())
+                .collect(Collectors.toMap(k -> (T) k.getKey(), Map.Entry::getValue, (old, nev) -> nev, LinkedHashMap::new));
     }
 
     public static int getItemCustomEnchantsAmount(@NotNull ItemStack item) {

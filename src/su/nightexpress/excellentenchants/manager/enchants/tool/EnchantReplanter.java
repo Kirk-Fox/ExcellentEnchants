@@ -18,6 +18,7 @@ import su.nexmedia.engine.config.api.JYML;
 import su.nexmedia.engine.utils.ItemUT;
 import su.nexmedia.engine.utils.MsgUT;
 import su.nightexpress.excellentenchants.ExcellentEnchants;
+import su.nightexpress.excellentenchants.api.enchantment.EnchantPriority;
 import su.nightexpress.excellentenchants.api.enchantment.IEnchantChanceTemplate;
 import su.nightexpress.excellentenchants.api.enchantment.type.BlockEnchant;
 import su.nightexpress.excellentenchants.api.enchantment.type.InteractEnchant;
@@ -32,7 +33,7 @@ public class EnchantReplanter extends IEnchantChanceTemplate implements Interact
     private static final Set<Material> CROPS = Sets.newHashSet(Material.WHEAT_SEEDS, Material.BEETROOT_SEEDS, Material.MELON_SEEDS, Material.PUMPKIN_SEEDS, Material.POTATO, Material.CARROT);
 
     public EnchantReplanter(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-        super(plugin, cfg);
+        super(plugin, cfg, EnchantPriority.MEDIUM);
 
         this.replantOnRightClick = cfg.getBoolean("Settings.Replant.On_Right_Click");
         this.replantOnPlantBreak = cfg.getBoolean("Settings.Replant.On_Plant_Break");

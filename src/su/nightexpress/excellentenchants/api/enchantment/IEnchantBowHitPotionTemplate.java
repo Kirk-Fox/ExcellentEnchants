@@ -20,8 +20,10 @@ public abstract class IEnchantBowHitPotionTemplate extends IEnchantPotionTemplat
     protected final String arrowTrail;
     protected final String arrowMeta;
 
-    public IEnchantBowHitPotionTemplate(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg, @NotNull PotionEffectType type) {
-        super(plugin, cfg, type);
+    public IEnchantBowHitPotionTemplate(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg,
+                                        @NotNull EnchantPriority priority,
+                                        @NotNull PotionEffectType type) {
+        super(plugin, cfg, priority, type);
 
         this.arrowTrail = cfg.getString("Settings.Arrow.Trail", "");
         this.arrowMeta = this.getId() + "_arrow";

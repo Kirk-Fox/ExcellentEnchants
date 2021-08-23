@@ -2,7 +2,7 @@ Is_Treasure: false
 Name: Bunny Hop
 Tier: common
 Description:
-  - 'Grants permanent %enchantment_potion_type% %enchantment_potion_level% effect.'
+  - 'Grants permanent %enchantment_potion_type% %enchantment_potion_level% effect that costs x1 %enchantment_cost_item%.'
 Level:
   Min: 1
   Max: 3
@@ -22,5 +22,5 @@ Settings:
     Item:
       material: RABBIT_FOOT
   Potion_Effect:
-    Duration: '10.0'
+    Duration: '25.0'
     Level: '%enchantment_level%'

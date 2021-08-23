@@ -93,7 +93,9 @@ public class Config extends IConfigTemplate {
         // Load existing tiers.
         for (String sId : cfg.getSection("Tiers")) {
             String path = "Tiers." + sId + ".";
+            cfg.addMissing(path + "Priority", 0);
 
+            int priority = cfg.getInt(path + "Priority");
             String name = cfg.getString(path + "Name", sId);
             String color = cfg.getString(path + "Color", "&f");
             Map<ObtainType, Double> chance = new HashMap<>();
@@ -103,7 +105,7 @@ public class Config extends IConfigTemplate {
                 chance.put(obtainType, chanceType);
             }
 
-            EnchantTier tier = new EnchantTier(sId, name, color, chance);
+            EnchantTier tier = new EnchantTier(sId, priority, name, color, chance);
             TIERS.put(tier.getId(), tier);
         }
 

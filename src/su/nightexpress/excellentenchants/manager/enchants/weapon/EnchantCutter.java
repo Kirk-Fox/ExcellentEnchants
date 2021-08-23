@@ -19,6 +19,7 @@ import su.nexmedia.engine.utils.MsgUT;
 import su.nexmedia.engine.utils.NumberUT;
 import su.nexmedia.engine.utils.random.Rnd;
 import su.nightexpress.excellentenchants.ExcellentEnchants;
+import su.nightexpress.excellentenchants.api.enchantment.EnchantPriority;
 import su.nightexpress.excellentenchants.api.enchantment.IEnchantChanceTemplate;
 import su.nightexpress.excellentenchants.api.enchantment.type.CombatEnchant;
 import su.nightexpress.excellentenchants.manager.object.EnchantScaler;
@@ -31,7 +32,7 @@ public class EnchantCutter extends IEnchantChanceTemplate implements CombatEncha
     protected Sound  sound;
 
     public EnchantCutter(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-        super(plugin, cfg);
+        super(plugin, cfg, EnchantPriority.LOWEST);
         this.durabilityReduction = new EnchantScaler(this, "Settings.Item.Durability_Reduction");
         this.sound = cfg.getEnum("Settings.Item.Sound", Sound.class);
     }

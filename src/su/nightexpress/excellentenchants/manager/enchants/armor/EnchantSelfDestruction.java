@@ -8,6 +8,7 @@ import su.nexmedia.engine.config.api.JYML;
 import su.nexmedia.engine.manager.leveling.Scaler;
 import su.nexmedia.engine.utils.NumberUT;
 import su.nightexpress.excellentenchants.ExcellentEnchants;
+import su.nightexpress.excellentenchants.api.enchantment.EnchantPriority;
 import su.nightexpress.excellentenchants.api.enchantment.IEnchantChanceTemplate;
 import su.nightexpress.excellentenchants.api.enchantment.type.DeathEnchant;
 import su.nightexpress.excellentenchants.manager.object.EnchantScaler;
@@ -19,7 +20,7 @@ public class EnchantSelfDestruction extends IEnchantChanceTemplate implements De
     private final Scaler explosionSize;
 
     public EnchantSelfDestruction(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-        super(plugin, cfg);
+        super(plugin, cfg, EnchantPriority.MEDIUM);
         this.explosionSize = new EnchantScaler(this, "Settings.Explosion.Size");
     }
 

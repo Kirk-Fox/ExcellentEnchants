@@ -10,6 +10,7 @@ import su.nexmedia.engine.manager.leveling.Scaler;
 import su.nexmedia.engine.utils.ItemUT;
 import su.nexmedia.engine.utils.NumberUT;
 import su.nightexpress.excellentenchants.ExcellentEnchants;
+import su.nightexpress.excellentenchants.api.enchantment.EnchantPriority;
 import su.nightexpress.excellentenchants.api.enchantment.IEnchantChanceTemplate;
 import su.nightexpress.excellentenchants.api.enchantment.type.BlockEnchant;
 import su.nightexpress.excellentenchants.manager.object.EnchantScaler;
@@ -21,7 +22,7 @@ public class EnchantLuckyMiner extends IEnchantChanceTemplate implements BlockEn
     private final Scaler expModifier;
 
     public EnchantLuckyMiner(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-        super(plugin, cfg);
+        super(plugin, cfg, EnchantPriority.MEDIUM);
         this.expModifier = new EnchantScaler(this, "Settings.Exp_Modifier");
     }
 
@@ -44,6 +45,7 @@ public class EnchantLuckyMiner extends IEnchantChanceTemplate implements BlockEn
 
     @Override
     public boolean use(@NotNull BlockBreakEvent e, @NotNull Player player, @NotNull ItemStack item, int level) {
+        if (e.isCancelled()) return false;
         if (!this.checkTriggerChance(level)) return false;
 
         double expMod = this.getExpModifier(level);

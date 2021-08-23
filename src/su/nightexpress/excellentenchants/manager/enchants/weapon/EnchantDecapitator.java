@@ -14,6 +14,7 @@ import su.nexmedia.engine.utils.EffectUT;
 import su.nexmedia.engine.utils.ItemUT;
 import su.nexmedia.engine.utils.StringUT;
 import su.nightexpress.excellentenchants.ExcellentEnchants;
+import su.nightexpress.excellentenchants.api.enchantment.EnchantPriority;
 import su.nightexpress.excellentenchants.api.enchantment.IEnchantChanceTemplate;
 import su.nightexpress.excellentenchants.api.enchantment.type.DeathEnchant;
 
@@ -31,7 +32,7 @@ public class EnchantDecapitator extends IEnchantChanceTemplate implements DeathE
     private final Map<String, String> headTextures;
 
     public EnchantDecapitator(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-        super(plugin, cfg);
+        super(plugin, cfg, EnchantPriority.MEDIUM);
 
         this.particleEffect = cfg.getString("Settings.Particle_Effect", Particle.BLOCK_CRACK.name() + ":REDSTONE_BLOCK");
         this.ignored = cfg.getStringSet("Settings.Ignored_Entity_Types").stream().map(String::toUpperCase).collect(Collectors.toSet());

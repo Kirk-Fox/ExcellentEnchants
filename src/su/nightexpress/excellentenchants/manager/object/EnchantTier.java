@@ -16,14 +16,16 @@ import java.util.stream.Collectors;
 public class EnchantTier {
 
     private final String                  id;
+    private final int priority;
     private final String                  name;
     private final String                  color;
     private final Map<ObtainType, Double> chance;
 
     private final Set<ExcellentEnchant> enchants;
 
-    public EnchantTier(@NotNull String id, @NotNull String name, @NotNull String color, @NotNull Map<ObtainType, Double> chance) {
+    public EnchantTier(@NotNull String id, int priority, @NotNull String name, @NotNull String color, @NotNull Map<ObtainType, Double> chance) {
         this.id = id.toLowerCase();
+        this.priority = priority;
         this.name = StringUT.color(name);
         this.color = StringUT.color(color);
         this.chance = chance;
@@ -33,6 +35,10 @@ public class EnchantTier {
     @NotNull
     public String getId() {
         return this.id;
+    }
+
+    public int getPriority() {
+        return priority;
     }
 
     @NotNull

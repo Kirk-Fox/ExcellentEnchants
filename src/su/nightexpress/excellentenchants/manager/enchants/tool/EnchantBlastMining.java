@@ -17,6 +17,7 @@ import su.nexmedia.engine.manager.leveling.Scaler;
 import su.nexmedia.engine.utils.ItemUT;
 import su.nexmedia.engine.utils.NumberUT;
 import su.nightexpress.excellentenchants.ExcellentEnchants;
+import su.nightexpress.excellentenchants.api.enchantment.EnchantPriority;
 import su.nightexpress.excellentenchants.api.enchantment.IEnchantChanceTemplate;
 import su.nightexpress.excellentenchants.api.enchantment.type.BlockEnchant;
 import su.nightexpress.excellentenchants.manager.EnchantManager;
@@ -30,7 +31,7 @@ public class EnchantBlastMining extends IEnchantChanceTemplate implements BlockE
     private final Scaler explosionPower;
 
     public EnchantBlastMining(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-        super(plugin, cfg);
+        super(plugin, cfg, EnchantPriority.MEDIUM);
 
         this.explosionPower = new EnchantScaler(this, "Settings.Explosion.Power");
     }

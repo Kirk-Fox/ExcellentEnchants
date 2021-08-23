@@ -13,8 +13,8 @@ import su.nightexpress.excellentenchants.ExcellentEnchants;
 
 public abstract class IEnchantBowHitTemplate extends IEnchantBowHitPotionTemplate {
 
-    public IEnchantBowHitTemplate(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-        super(plugin, cfg, PotionEffectType.GLOWING);
+    public IEnchantBowHitTemplate(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg, @NotNull EnchantPriority priority) {
+        super(plugin, cfg, priority, PotionEffectType.GLOWING /* костыль :D */);
     }
 
     @Override

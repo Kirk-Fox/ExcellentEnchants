@@ -13,6 +13,7 @@ import su.nexmedia.engine.manager.leveling.Scaler;
 import su.nexmedia.engine.utils.EffectUT;
 import su.nexmedia.engine.utils.NumberUT;
 import su.nightexpress.excellentenchants.ExcellentEnchants;
+import su.nightexpress.excellentenchants.api.enchantment.EnchantPriority;
 import su.nightexpress.excellentenchants.api.enchantment.IEnchantChanceTemplate;
 import su.nightexpress.excellentenchants.api.enchantment.type.CombatEnchant;
 import su.nightexpress.excellentenchants.manager.object.EnchantScaler;
@@ -25,7 +26,7 @@ public class EnchantVampire extends IEnchantChanceTemplate implements CombatEnch
     private final Scaler healMod;
 
     public EnchantVampire(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-        super(plugin, cfg);
+        super(plugin, cfg, EnchantPriority.LOWEST);
 
         this.enchantParticle = cfg.getString("Settings.Particle_Effect", Particle.HEART.name());
         this.healMod = new EnchantScaler(this, "Settings.Heal_Of_Damage");

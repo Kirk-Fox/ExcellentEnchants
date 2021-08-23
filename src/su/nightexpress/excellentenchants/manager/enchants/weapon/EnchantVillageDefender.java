@@ -12,6 +12,7 @@ import su.nexmedia.engine.manager.leveling.Scaler;
 import su.nexmedia.engine.utils.EffectUT;
 import su.nexmedia.engine.utils.NumberUT;
 import su.nightexpress.excellentenchants.ExcellentEnchants;
+import su.nightexpress.excellentenchants.api.enchantment.EnchantPriority;
 import su.nightexpress.excellentenchants.api.enchantment.IEnchantChanceTemplate;
 import su.nightexpress.excellentenchants.api.enchantment.type.CombatEnchant;
 import su.nightexpress.excellentenchants.manager.object.EnchantScaler;
@@ -25,7 +26,7 @@ public class EnchantVillageDefender extends IEnchantChanceTemplate implements Co
     private final String  effectParticle;
 
     public EnchantVillageDefender(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-        super(plugin, cfg);
+        super(plugin, cfg, EnchantPriority.MEDIUM);
 
         this.dmgAddict = new EnchantScaler(this, "Settings.Damage.Formula");
         this.dmgAsModifier = cfg.getBoolean("Settings.Damage.As_Modifier");

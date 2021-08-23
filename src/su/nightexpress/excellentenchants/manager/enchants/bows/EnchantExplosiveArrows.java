@@ -10,6 +10,7 @@ import su.nexmedia.engine.config.api.JYML;
 import su.nexmedia.engine.manager.leveling.Scaler;
 import su.nexmedia.engine.utils.NumberUT;
 import su.nightexpress.excellentenchants.ExcellentEnchants;
+import su.nightexpress.excellentenchants.api.enchantment.EnchantPriority;
 import su.nightexpress.excellentenchants.api.enchantment.IEnchantBowHitTemplate;
 import su.nightexpress.excellentenchants.manager.object.EnchantScaler;
 
@@ -20,7 +21,7 @@ public class EnchantExplosiveArrows extends IEnchantBowHitTemplate {
     private final Scaler explosionSize;
 
     public EnchantExplosiveArrows(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-        super(plugin, cfg);
+        super(plugin, cfg, EnchantPriority.MEDIUM);
         this.explosionSize = new EnchantScaler(this, "Settings.Explosion.Size");
     }
 

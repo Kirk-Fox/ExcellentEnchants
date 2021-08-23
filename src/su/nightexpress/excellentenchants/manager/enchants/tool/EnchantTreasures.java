@@ -19,20 +19,24 @@ import su.nexmedia.engine.utils.LocUT;
 import su.nexmedia.engine.utils.MsgUT;
 import su.nexmedia.engine.utils.random.Rnd;
 import su.nightexpress.excellentenchants.ExcellentEnchants;
+import su.nightexpress.excellentenchants.api.enchantment.EnchantPriority;
 import su.nightexpress.excellentenchants.api.enchantment.IEnchantChanceTemplate;
 import su.nightexpress.excellentenchants.api.enchantment.type.BlockEnchant;
+import su.nightexpress.excellentenchants.api.enchantment.type.CustomDropEnchant;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class EnchantTreasures extends IEnchantChanceTemplate implements BlockEnchant {
+public class EnchantTreasures extends IEnchantChanceTemplate implements BlockEnchant, CustomDropEnchant {
 
     private final String                               particleEffect;
     private final String                               sound;
     private final Map<Material, Map<Material, Double>> treasures;
 
     public EnchantTreasures(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-        super(plugin, cfg);
+        super(plugin, cfg, EnchantPriority.LOWEST);
 
         this.particleEffect = cfg.getString("Particle_Effect", Particle.VILLAGER_HAPPY.name());
         this.sound = cfg.getString("Settings.Sound", Sound.BLOCK_NOTE_BLOCK_BELL.name());
@@ -77,6 +81,19 @@ public class EnchantTreasures extends IEnchantChanceTemplate implements BlockEnc
         return EnchantmentTarget.TOOL;
     }
 
+    @Override
+    @NotNull
+    public List<ItemStack> getCustomDrops(@NotNull Block block, int level) {
+        ItemStack item = this.getTreasure(block);
+        if (PlayerBlockPlacedListener.isUserPlaced(block) || item == null) return Collections.emptyList();
+        return Collections.singletonList(item);
+    }
+
+    @Override
+    public boolean isEventMustHaveDrops() {
+        return false;
+    }
+
     @Nullable
     public final ItemStack getTreasure(@NotNull Block block) {
         Map<Material, Double> treasures = this.treasures.get(block.getType());
@@ -88,16 +105,16 @@ public class EnchantTreasures extends IEnchantChanceTemplate implements BlockEnc
 
     @Override
     public boolean use(@NotNull BlockBreakEvent e, @NotNull Player player, @NotNull ItemStack item, int level) {
-        if (!this.checkTriggerChance(level)) return false;
-
         Block block = e.getBlock();
+
+        if (EnchantTelekinesis.isDropHandled(block)) return false;
+        if (!this.checkTriggerChance(level)) return false;
+        if (this.isEventMustHaveDrops() && !e.isDropItems()) return false;
         if (PlayerBlockPlacedListener.isUserPlaced(block)) return false;
 
-        ItemStack itemDrop = this.getTreasure(block);
-        if (itemDrop == null) return false;
-
         Location loc = LocUT.getCenter(block.getLocation());
-        block.getWorld().dropItem(loc, itemDrop);
+
+        this.getCustomDrops(block, level).forEach(itemDrop -> block.getWorld().dropItem(loc, itemDrop));
         MsgUT.sound(loc, this.sound);
         EffectUT.playEffect(loc, this.particleEffect, 0.2f, 0.2f, 0.2f, 0.12f, 20);
         return true;

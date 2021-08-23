@@ -11,6 +11,7 @@ import su.nexmedia.engine.config.api.JYML;
 import su.nexmedia.engine.utils.EffectUT;
 import su.nexmedia.engine.utils.MsgUT;
 import su.nightexpress.excellentenchants.ExcellentEnchants;
+import su.nightexpress.excellentenchants.api.enchantment.EnchantPriority;
 import su.nightexpress.excellentenchants.api.enchantment.IEnchantChanceTemplate;
 import su.nightexpress.excellentenchants.api.enchantment.type.CombatEnchant;
 
@@ -20,7 +21,7 @@ public class EnchantDoubleStrike extends IEnchantChanceTemplate implements Comba
     private final String enchantSound;
 
     public EnchantDoubleStrike(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-        super(plugin, cfg);
+        super(plugin, cfg, EnchantPriority.LOW);
 
         this.enchantParticle = cfg.getString("Settings.Particle_Effect", Particle.EXPLOSION_NORMAL.name());
         this.enchantSound = cfg.getString("Settings.Sound", Sound.ENTITY_GENERIC_EXPLODE.name());

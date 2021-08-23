@@ -21,17 +21,22 @@ import su.nexmedia.engine.utils.ItemUT;
 import su.nexmedia.engine.utils.LocUT;
 import su.nexmedia.engine.utils.StringUT;
 import su.nightexpress.excellentenchants.ExcellentEnchants;
+import su.nightexpress.excellentenchants.api.enchantment.EnchantPriority;
 import su.nightexpress.excellentenchants.api.enchantment.IEnchantChanceTemplate;
 import su.nightexpress.excellentenchants.api.enchantment.type.BlockEnchant;
+import su.nightexpress.excellentenchants.api.enchantment.type.CustomDropEnchant;
 import su.nightexpress.excellentenchants.manager.EnchantRegister;
 
-public class EnchantDivineTouch extends IEnchantChanceTemplate implements BlockEnchant {
+import java.util.Collections;
+import java.util.List;
+
+public class EnchantDivineTouch extends IEnchantChanceTemplate implements BlockEnchant, CustomDropEnchant {
 
     private final String particleEffect;
     private final String spawnerName;
 
     public EnchantDivineTouch(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-        super(plugin, cfg);
+        super(plugin, cfg, EnchantPriority.MEDIUM);
 
         this.particleEffect = cfg.getString("Settings.Particle_Effect", Particle.VILLAGER_HAPPY.name());
         this.spawnerName = StringUT.color(cfg.getString("Settings.Spawner_Item.Name", "&aMob Spawner &7(%type%)"));
@@ -68,22 +73,11 @@ public class EnchantDivineTouch extends IEnchantChanceTemplate implements BlockE
         return EnchantmentTarget.TOOL;
     }
 
-    @Override
-    public boolean use(@NotNull BlockBreakEvent e, @NotNull Player player, @NotNull ItemStack item, int level) {
-        Block block = e.getBlock();
-        if (block.getType() != Material.SPAWNER) return false;
-
-        if (!this.checkTriggerChance(level)) return false;
-
-        Location location = LocUT.getCenter(block.getLocation());
-        World world = location.getWorld();
-        if (world == null) return false;
-
-        CreatureSpawner spawnerBlock = (CreatureSpawner) block.getState();
-
+    @NotNull
+    public ItemStack getSpawner(@NotNull CreatureSpawner spawnerBlock) {
         ItemStack itemSpawner = new ItemStack(Material.SPAWNER);
         BlockStateMeta stateItem = (BlockStateMeta) itemSpawner.getItemMeta();
-        if (stateItem == null) return false;
+        if (stateItem == null) return itemSpawner;
 
         CreatureSpawner spawnerItem = (CreatureSpawner) stateItem.getBlockState();
         spawnerItem.setSpawnedType(spawnerBlock.getSpawnedType());
@@ -92,8 +86,39 @@ public class EnchantDivineTouch extends IEnchantChanceTemplate implements BlockE
         stateItem.setDisplayName(this.spawnerName.replace("%type%", plugin.lang().getEnum(spawnerBlock.getSpawnedType())));
         itemSpawner.setItemMeta(stateItem);
 
-        world.dropItemNaturally(location, itemSpawner);
+        return itemSpawner;
+    }
+
+    @Override
+    public @NotNull List<ItemStack> getCustomDrops(@NotNull Block block, int level) {
+        if (!(block.getState() instanceof CreatureSpawner spawnerBlock)) return Collections.emptyList();
+
+        return Collections.singletonList(this.getSpawner(spawnerBlock));
+    }
+
+    @Override
+    public boolean isEventMustHaveDrops() {
+        return false;
+    }
+
+    @Override
+    public boolean use(@NotNull BlockBreakEvent e, @NotNull Player player, @NotNull ItemStack item, int level) {
+        Block block = e.getBlock();
+
+        if (EnchantTelekinesis.isDropHandled(block)) return false;
+        if (!(block.getState() instanceof CreatureSpawner spawnerBlock)) return false;
+        if (this.isEventMustHaveDrops() && !e.isDropItems()) return false;
+        if (!this.checkTriggerChance(level)) return false;
+
+        Location location = LocUT.getCenter(block.getLocation());
+        World world = location.getWorld();
+        if (world == null) return false;
+
+        this.getCustomDrops(block, level).forEach(itemSpawner -> world.dropItemNaturally(location, itemSpawner));
         EffectUT.playEffect(location, this.particleEffect, 0.3f, 0.3f, 0.3f, 0.15f, 30);
+
+        e.setExpToDrop(0);
+        e.setDropItems(false);
         return true;
     }
 

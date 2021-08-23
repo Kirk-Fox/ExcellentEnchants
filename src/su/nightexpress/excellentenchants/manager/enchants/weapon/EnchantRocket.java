@@ -13,6 +13,7 @@ import su.nexmedia.engine.manager.leveling.Scaler;
 import su.nexmedia.engine.utils.MsgUT;
 import su.nexmedia.engine.utils.random.Rnd;
 import su.nightexpress.excellentenchants.ExcellentEnchants;
+import su.nightexpress.excellentenchants.api.enchantment.EnchantPriority;
 import su.nightexpress.excellentenchants.api.enchantment.IEnchantChanceTemplate;
 import su.nightexpress.excellentenchants.api.enchantment.type.CombatEnchant;
 import su.nightexpress.excellentenchants.manager.object.EnchantScaler;
@@ -22,7 +23,7 @@ public class EnchantRocket extends IEnchantChanceTemplate implements CombatEncha
     private final Scaler fireworkPower;
 
     public EnchantRocket(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-        super(plugin, cfg);
+        super(plugin, cfg, EnchantPriority.MEDIUM);
         this.fireworkPower = new EnchantScaler(this, "Settings.Firework_Power");
     }
 

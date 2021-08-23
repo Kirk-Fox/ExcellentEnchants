@@ -12,6 +12,7 @@ import su.nexmedia.engine.utils.CollectionsUT;
 import su.nexmedia.engine.utils.StringUT;
 import su.nexmedia.engine.utils.random.Rnd;
 import su.nightexpress.excellentenchants.ExcellentEnchants;
+import su.nightexpress.excellentenchants.api.enchantment.EnchantPriority;
 import su.nightexpress.excellentenchants.api.enchantment.IEnchantChanceTemplate;
 import su.nightexpress.excellentenchants.api.enchantment.type.DeathEnchant;
 
@@ -24,7 +25,7 @@ public class EnchantScavenger extends IEnchantChanceTemplate implements DeathEnc
     private final Map<EntityType, Map<Material, Map.Entry<int[], Double>>> loot;
 
     public EnchantScavenger(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-        super(plugin, cfg);
+        super(plugin, cfg, EnchantPriority.MEDIUM);
         this.loot = new HashMap<>();
 
 

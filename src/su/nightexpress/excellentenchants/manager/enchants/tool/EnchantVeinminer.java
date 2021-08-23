@@ -1,6 +1,7 @@
 package su.nightexpress.excellentenchants.manager.enchants.tool;
 
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.EnchantmentTarget;
@@ -10,8 +11,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.jetbrains.annotations.NotNull;
 import su.nexmedia.engine.config.api.JYML;
+import su.nexmedia.engine.utils.EffectUT;
 import su.nexmedia.engine.utils.ItemUT;
+import su.nexmedia.engine.utils.LocUT;
 import su.nightexpress.excellentenchants.ExcellentEnchants;
+import su.nightexpress.excellentenchants.api.enchantment.EnchantPriority;
 import su.nightexpress.excellentenchants.api.enchantment.ExcellentEnchant;
 import su.nightexpress.excellentenchants.api.enchantment.type.BlockEnchant;
 import su.nightexpress.excellentenchants.hooks.HookNCP;
@@ -34,7 +38,7 @@ public class EnchantVeinminer extends ExcellentEnchant implements BlockEnchant {
     private final Set<Material> blocksAffected;
 
     public EnchantVeinminer(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-        super(plugin, cfg);
+        super(plugin, cfg, EnchantPriority.HIGH);
 
         this.blocksLimit = new EnchantScaler(this, "Settings.Blocks.Max_At_Once");
         this.blocksAffected = cfg.getStringSet("Settings.Blocks.Affected").stream().map(type -> Material.getMaterial(type.toUpperCase())).filter(Objects::nonNull).collect(Collectors.toSet());
@@ -75,6 +79,10 @@ public class EnchantVeinminer extends ExcellentEnchant implements BlockEnchant {
         }
         ores.remove(source);
         ores.forEach(ore -> {
+            // Play block break particles before the block broken.
+            String particle = Particle.BLOCK_CRACK + ":" + ore.getType().name();
+            EffectUT.playEffect(LocUT.getCenter(ore.getLocation()), particle, 0.2, 0.2, 0.2, 0.1, 20);
+
             ore.setMetadata(META_ORE_MINED, new FixedMetadataValue(plugin, true));
             plugin.getNMS().breakBlock(player, ore);
         });

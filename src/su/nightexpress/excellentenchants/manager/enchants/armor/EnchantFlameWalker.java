@@ -20,6 +20,7 @@ import su.nexmedia.engine.manager.api.task.ITask;
 import su.nexmedia.engine.utils.EffectUT;
 import su.nexmedia.engine.utils.ItemUT;
 import su.nightexpress.excellentenchants.ExcellentEnchants;
+import su.nightexpress.excellentenchants.api.enchantment.EnchantPriority;
 import su.nightexpress.excellentenchants.api.enchantment.IEnchantChanceTemplate;
 import su.nightexpress.excellentenchants.api.enchantment.type.MoveEnchant;
 import su.nightexpress.excellentenchants.manager.EnchantManager;
@@ -35,7 +36,7 @@ public class EnchantFlameWalker extends IEnchantChanceTemplate implements MoveEn
     private BlockTickTask blockTickTask;
 
     public EnchantFlameWalker(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-        super(plugin, cfg);
+        super(plugin, cfg, EnchantPriority.MEDIUM);
 
         this.blockTickTask = new BlockTickTask(plugin);
         this.blockTickTask.start();

@@ -1,6 +1,7 @@
 package su.nightexpress.excellentenchants.manager.enchants.tool;
 
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.EnchantmentTarget;
@@ -10,9 +11,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.jetbrains.annotations.NotNull;
 import su.nexmedia.engine.config.api.JYML;
+import su.nexmedia.engine.utils.EffectUT;
 import su.nexmedia.engine.utils.ItemUT;
 import su.nexmedia.engine.utils.LocUT;
 import su.nightexpress.excellentenchants.ExcellentEnchants;
+import su.nightexpress.excellentenchants.api.enchantment.EnchantPriority;
 import su.nightexpress.excellentenchants.api.enchantment.IEnchantChanceTemplate;
 import su.nightexpress.excellentenchants.api.enchantment.type.BlockEnchant;
 import su.nightexpress.excellentenchants.hooks.HookNCP;
@@ -26,7 +29,7 @@ public class EnchantTunnel extends IEnchantChanceTemplate implements BlockEnchan
     private static final int[][] MINING_COORD_OFFSETS = new int[][]{{0, 0}, {0, -1}, {-1, 0}, {0, 1}, {1, 0}, {-1, -1}, {-1, 1}, {1, -1}, {1, 1},};
 
     public EnchantTunnel(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-        super(plugin, cfg);
+        super(plugin, cfg, EnchantPriority.HIGH);
         this.disableOnSneak = cfg.getBoolean("Settings.Ignore_When_Sneaking");
     }
 
@@ -110,6 +113,10 @@ public class EnchantTunnel extends IEnchantChanceTemplate implements BlockEnchan
             if (addType.isInteractable() && addType != Material.REDSTONE_ORE) continue;
             if (addType == Material.BEDROCK || addType == Material.END_PORTAL || addType == Material.END_PORTAL_FRAME) continue;
             if (addType == Material.OBSIDIAN && addType != block.getType()) continue;
+
+            // Play block break particles before the block broken.
+            String particle = Particle.BLOCK_CRACK + ":" + blockAdd.getType().name();
+            EffectUT.playEffect(LocUT.getCenter(blockAdd.getLocation()), particle, 0.2, 0.2, 0.2, 0.1, 20);
 
             // Add metadata to tool to prevent new block breaking event from triggering mining again
             player.setMetadata(LOOP_FIX, new FixedMetadataValue(plugin, true));

@@ -44,6 +44,7 @@ public abstract class ExcellentEnchant extends Enchantment implements IListener 
     protected final ExcellentEnchants plugin;
     protected final JYML              cfg;
     protected final String            id;
+    protected final EnchantPriority priority;
 
     protected String       displayName;
     protected EnchantTier  tier;
@@ -57,13 +58,14 @@ public abstract class ExcellentEnchant extends Enchantment implements IListener 
     protected     Scaler                  anvilMergeCost;
     protected     Map<ObtainType, Double> obtainChance;
 
-    public ExcellentEnchant(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
+    public ExcellentEnchant(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg, @NotNull EnchantPriority priority) {
         super(NamespacedKey.minecraft(cfg.getFile().getName().replace(".yml", "").toLowerCase()));
         this.plugin = plugin;
         this.id = this.getKey().getKey();
         this.cfg = cfg;
         this.updateConfig();
         this.cfg.saveChanges();
+        this.priority = priority;
 
         this.displayName = StringUT.color(cfg.getString("Name", this.getId()));
         this.tier = EnchantManager.getTierById(cfg.getString("Tier", Constants.DEFAULT));
@@ -171,6 +173,11 @@ public abstract class ExcellentEnchant extends Enchantment implements IListener 
 
     public @NotNull String getId() {
         return this.id;
+    }
+
+    @NotNull
+    public EnchantPriority getPriority() {
+        return priority;
     }
 
     @NotNull

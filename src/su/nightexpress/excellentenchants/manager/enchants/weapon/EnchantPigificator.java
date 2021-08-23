@@ -13,6 +13,7 @@ import su.nexmedia.engine.config.api.JYML;
 import su.nexmedia.engine.utils.EffectUT;
 import su.nexmedia.engine.utils.MsgUT;
 import su.nightexpress.excellentenchants.ExcellentEnchants;
+import su.nightexpress.excellentenchants.api.enchantment.EnchantPriority;
 import su.nightexpress.excellentenchants.api.enchantment.IEnchantChanceTemplate;
 import su.nightexpress.excellentenchants.api.enchantment.type.CombatEnchant;
 import su.nightexpress.excellentenchants.manager.EnchantRegister;
@@ -23,7 +24,7 @@ public class EnchantPigificator extends IEnchantChanceTemplate implements Combat
     private final String effect;
 
     public EnchantPigificator(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-        super(plugin, cfg);
+        super(plugin, cfg, EnchantPriority.MEDIUM);
 
         this.sound = cfg.getString("Settings.Sound", Sound.ENTITY_PIG_AMBIENT.name());
         this.effect = cfg.getString("Settings.Particle_Effect", Particle.HEART.name());

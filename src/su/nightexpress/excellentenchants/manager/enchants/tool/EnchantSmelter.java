@@ -14,21 +14,22 @@ import su.nexmedia.engine.utils.ItemUT;
 import su.nexmedia.engine.utils.LocUT;
 import su.nexmedia.engine.utils.MsgUT;
 import su.nightexpress.excellentenchants.ExcellentEnchants;
+import su.nightexpress.excellentenchants.api.enchantment.EnchantPriority;
 import su.nightexpress.excellentenchants.api.enchantment.IEnchantChanceTemplate;
 import su.nightexpress.excellentenchants.api.enchantment.type.BlockEnchant;
+import su.nightexpress.excellentenchants.api.enchantment.type.CustomDropEnchant;
 import su.nightexpress.excellentenchants.manager.EnchantRegister;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
-public class EnchantSmelter extends IEnchantChanceTemplate implements BlockEnchant {
+public class EnchantSmelter extends IEnchantChanceTemplate implements BlockEnchant, CustomDropEnchant {
 
     private final String                  sound;
     private final String                  particle;
     private final Map<Material, Material> smeltingTable;
 
     public EnchantSmelter(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-        super(plugin, cfg);
+        super(plugin, cfg, EnchantPriority.MEDIUM);
 
         this.sound = cfg.getString("Settings.Sound", "");
         this.particle = cfg.getString("Settings.Particle_Effect", "");
@@ -77,21 +78,30 @@ public class EnchantSmelter extends IEnchantChanceTemplate implements BlockEncha
     }
 
     @Override
-    public boolean use(@NotNull BlockBreakEvent e, @NotNull Player player, @NotNull ItemStack item, int level) {
-        if (!e.isDropItems()) return false;
-        if (!this.checkTriggerChance(level)) return false;
+    @NotNull
+    public List<ItemStack> getCustomDrops(@NotNull Block block, int level) {
+        return Collections.singletonList(new ItemStack(this.smeltingTable.get(block.getType())));
+    }
 
+    @Override
+    public boolean isEventMustHaveDrops() {
+        return true;
+    }
+
+    @Override
+    public boolean use(@NotNull BlockBreakEvent e, @NotNull Player player, @NotNull ItemStack item, int level) {
         Block block = e.getBlock();
-        Material result = this.smeltingTable.get(block.getType());
-        if (result == null) return false;
+
+        if (EnchantTelekinesis.isDropHandled(block)) return false;
+        if (this.isEventMustHaveDrops() && !e.isDropItems()) return false;
+        if (!this.checkTriggerChance(level)) return false;
 
         e.setDropItems(false);
 
         World world = block.getWorld();
         Location location = LocUT.getCenter(block.getLocation(), true);
-        ItemStack itemSmelt = new ItemStack(result);
 
-        world.dropItem(location, itemSmelt);
+        this.getCustomDrops(block, level).forEach(itemSmelt -> world.dropItem(location, itemSmelt));
         MsgUT.sound(location, this.sound);
         EffectUT.playEffect(location, this.particle, 0.2f, 0.2f, 0.2f, 0.05f, 30);
         return true;

@@ -13,6 +13,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.jetbrains.annotations.NotNull;
 import su.nexmedia.engine.config.api.JYML;
 import su.nightexpress.excellentenchants.ExcellentEnchants;
+import su.nightexpress.excellentenchants.api.enchantment.EnchantPriority;
 import su.nightexpress.excellentenchants.api.enchantment.IEnchantChanceTemplate;
 import su.nightexpress.excellentenchants.api.enchantment.type.DeathEnchant;
 
@@ -28,7 +29,7 @@ public class EnchantThrifty extends IEnchantChanceTemplate implements DeathEncha
     private static final String META_SETTING_SPAWN_REASON = "GOLDEN_ENCHANTS_THRIFTY_SETTING_SPAWN_REASON";
 
     public EnchantThrifty(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-        super(plugin, cfg);
+        super(plugin, cfg, EnchantPriority.MEDIUM);
 
         this.entityBlacklist = cfg.getStringSet("Settings.Ignored_Entity_Types").stream().map(String::toUpperCase).collect(Collectors.toSet());
 

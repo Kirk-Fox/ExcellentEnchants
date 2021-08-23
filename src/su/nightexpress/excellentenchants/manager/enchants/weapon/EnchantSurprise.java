@@ -8,12 +8,13 @@ import org.jetbrains.annotations.NotNull;
 import su.nexmedia.engine.config.api.JYML;
 import su.nexmedia.engine.utils.random.Rnd;
 import su.nightexpress.excellentenchants.ExcellentEnchants;
+import su.nightexpress.excellentenchants.api.enchantment.EnchantPriority;
 import su.nightexpress.excellentenchants.api.enchantment.IEnchantCombatPotionTemplate;
 
 public class EnchantSurprise extends IEnchantCombatPotionTemplate {
 
     public EnchantSurprise(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-        super(plugin, cfg, PotionEffectType.BLINDNESS);
+        super(plugin, cfg, EnchantPriority.MEDIUM, PotionEffectType.BLINDNESS);
 
     }
 

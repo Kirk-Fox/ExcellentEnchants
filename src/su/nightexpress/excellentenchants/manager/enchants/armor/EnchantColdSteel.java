@@ -8,13 +8,14 @@ import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 import su.nexmedia.engine.config.api.JYML;
 import su.nightexpress.excellentenchants.ExcellentEnchants;
+import su.nightexpress.excellentenchants.api.enchantment.EnchantPriority;
 import su.nightexpress.excellentenchants.api.enchantment.IEnchantPotionTemplate;
 import su.nightexpress.excellentenchants.api.enchantment.type.CombatEnchant;
 
 public class EnchantColdSteel extends IEnchantPotionTemplate implements CombatEnchant {
 
     public EnchantColdSteel(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-        super(plugin, cfg, PotionEffectType.SLOW_DIGGING);
+        super(plugin, cfg, EnchantPriority.MEDIUM, PotionEffectType.SLOW_DIGGING);
     }
 
     @Override

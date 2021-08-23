@@ -13,6 +13,7 @@ import su.nexmedia.engine.manager.leveling.Scaler;
 import su.nexmedia.engine.utils.EffectUT;
 import su.nexmedia.engine.utils.NumberUT;
 import su.nightexpress.excellentenchants.ExcellentEnchants;
+import su.nightexpress.excellentenchants.api.enchantment.EnchantPriority;
 import su.nightexpress.excellentenchants.api.enchantment.IEnchantChanceTemplate;
 import su.nightexpress.excellentenchants.api.enchantment.type.CombatEnchant;
 import su.nightexpress.excellentenchants.manager.object.EnchantScaler;
@@ -29,7 +30,7 @@ public class EnchantBaneOfNetherspawn extends IEnchantChanceTemplate implements 
     private final Set<EntityType> entityTypes;
 
     public EnchantBaneOfNetherspawn(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-        super(plugin, cfg);
+        super(plugin, cfg, EnchantPriority.MEDIUM);
 
         this.effect = cfg.getString("Settings.Particle_Effect", "");
         this.damageModifier = cfg.getBoolean("Settings.Damage.As_Modifier");

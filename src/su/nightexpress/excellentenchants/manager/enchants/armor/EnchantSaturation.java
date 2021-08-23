@@ -8,6 +8,7 @@ import su.nexmedia.engine.config.api.JYML;
 import su.nexmedia.engine.manager.leveling.Scaler;
 import su.nexmedia.engine.utils.NumberUT;
 import su.nightexpress.excellentenchants.ExcellentEnchants;
+import su.nightexpress.excellentenchants.api.enchantment.EnchantPriority;
 import su.nightexpress.excellentenchants.api.enchantment.IEnchantChanceTemplate;
 import su.nightexpress.excellentenchants.api.enchantment.type.PassiveEnchant;
 import su.nightexpress.excellentenchants.manager.object.EnchantScaler;
@@ -19,7 +20,7 @@ public class EnchantSaturation extends IEnchantChanceTemplate implements Passive
     private final Scaler saturationAmount;
 
     public EnchantSaturation(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-        super(plugin, cfg);
+        super(plugin, cfg, EnchantPriority.MEDIUM);
 
         this.saturationAmount = new EnchantScaler(this, "Settings.Saturation.Amount");
     }
