@@ -83,10 +83,10 @@ public class EnchantTreasures extends IEnchantChanceTemplate implements BlockEnc
 
     @Override
     @NotNull
-    public List<ItemStack> getCustomDrops(@NotNull Block block, int level) {
-        ItemStack item = this.getTreasure(block);
-        if (PlayerBlockPlacedListener.isUserPlaced(block) || item == null) return Collections.emptyList();
-        return Collections.singletonList(item);
+    public List<ItemStack> getCustomDrops(@NotNull Player player, @NotNull ItemStack item, @NotNull Block block, int level) {
+        ItemStack drop = this.getTreasure(block);
+        if (PlayerBlockPlacedListener.isUserPlaced(block) || drop == null) return Collections.emptyList();
+        return Collections.singletonList(drop);
     }
 
     @Override
@@ -114,7 +114,7 @@ public class EnchantTreasures extends IEnchantChanceTemplate implements BlockEnc
 
         Location loc = LocUT.getCenter(block.getLocation());
 
-        this.getCustomDrops(block, level).forEach(itemDrop -> block.getWorld().dropItem(loc, itemDrop));
+        this.getCustomDrops(player, item, block, level).forEach(itemDrop -> block.getWorld().dropItem(loc, itemDrop));
         MsgUT.sound(loc, this.sound);
         EffectUT.playEffect(loc, this.particleEffect, 0.2f, 0.2f, 0.2f, 0.12f, 20);
         return true;

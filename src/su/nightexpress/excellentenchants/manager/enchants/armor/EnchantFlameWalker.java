@@ -14,8 +14,8 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import su.nexmedia.engine.api.manager.ICleanable;
 import su.nexmedia.engine.config.api.JYML;
-import su.nexmedia.engine.manager.api.Cleanable;
 import su.nexmedia.engine.manager.api.task.ITask;
 import su.nexmedia.engine.utils.EffectUT;
 import su.nexmedia.engine.utils.ItemUT;
@@ -28,7 +28,7 @@ import su.nightexpress.excellentenchants.manager.EnchantManager;
 import java.util.HashMap;
 import java.util.Map;
 
-public class EnchantFlameWalker extends IEnchantChanceTemplate implements MoveEnchant, Cleanable {
+public class EnchantFlameWalker extends IEnchantChanceTemplate implements MoveEnchant, ICleanable {
 
     private static final BlockFace[]      FACES             = {BlockFace.SOUTH, BlockFace.NORTH, BlockFace.EAST, BlockFace.WEST};
     private static final Map<Block, Long> BLOCKS_TO_DESTROY = new HashMap<>();

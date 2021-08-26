@@ -84,8 +84,13 @@ public class EnchantTelekinesis extends IEnchantChanceTemplate implements BlockE
             if (dropEnchant instanceof EnchantSilkChest) {
                 drops.removeIf(drop -> drop.getType() == block.getType());
             }
+            if (dropEnchant instanceof EnchantSmelter smelter) {
+                smelter.smelt(drops);
+                smelter.playEffect(block);
+                continue; // Do not add smelted items twice, only replace current ones.
+            }
 
-            drops.addAll(dropEnchant.getCustomDrops(block, dropLevel));
+            drops.addAll(dropEnchant.getCustomDrops(player, item, block, dropLevel));
         }
         drops.removeIf(Objects::isNull);
 
@@ -101,6 +106,7 @@ public class EnchantTelekinesis extends IEnchantChanceTemplate implements BlockE
         this.messageDropReceived.replace("%items%", builder.toString()).send(player);
 
         e.setDropItems(false);
+        block.removeMetadata(META_BLOCK_DROP_HANDLER, plugin);
         return true;
     }
 

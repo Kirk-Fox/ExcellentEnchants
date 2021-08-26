@@ -90,7 +90,7 @@ public class EnchantDivineTouch extends IEnchantChanceTemplate implements BlockE
     }
 
     @Override
-    public @NotNull List<ItemStack> getCustomDrops(@NotNull Block block, int level) {
+    public @NotNull List<ItemStack> getCustomDrops(@NotNull Player player, @NotNull ItemStack item, @NotNull Block block, int level) {
         if (!(block.getState() instanceof CreatureSpawner spawnerBlock)) return Collections.emptyList();
 
         return Collections.singletonList(this.getSpawner(spawnerBlock));
@@ -114,7 +114,7 @@ public class EnchantDivineTouch extends IEnchantChanceTemplate implements BlockE
         World world = location.getWorld();
         if (world == null) return false;
 
-        this.getCustomDrops(block, level).forEach(itemSpawner -> world.dropItemNaturally(location, itemSpawner));
+        this.getCustomDrops(player, item, block, level).forEach(itemSpawner -> world.dropItemNaturally(location, itemSpawner));
         EffectUT.playEffect(location, this.particleEffect, 0.3f, 0.3f, 0.3f, 0.15f, 30);
 
         e.setExpToDrop(0);

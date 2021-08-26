@@ -103,7 +103,7 @@ public class EnchantSilkChest extends IEnchantChanceTemplate implements BlockEnc
 
     @Override
     @NotNull
-    public List<ItemStack> getCustomDrops(@NotNull Block block, int level) {
+    public List<ItemStack> getCustomDrops(@NotNull Player player, @NotNull ItemStack item, @NotNull Block block, int level) {
         if (block.getType() == Material.ENDER_CHEST) return Collections.emptyList();
         if (!(block.getState() instanceof Chest chest)) return Collections.emptyList();
 
@@ -125,7 +125,7 @@ public class EnchantSilkChest extends IEnchantChanceTemplate implements BlockEnc
         if (!(block.getState() instanceof Chest chest)) return false;
 
         // Drop custom chest and do not drop the original one.
-        this.getCustomDrops(block, level).forEach(chestItem -> block.getWorld().dropItemNaturally(block.getLocation(), chestItem));
+        this.getCustomDrops(player, item, block, level).forEach(chestItem -> block.getWorld().dropItemNaturally(block.getLocation(), chestItem));
 
         // Do not drop chest items.
         chest.getBlockInventory().clear();

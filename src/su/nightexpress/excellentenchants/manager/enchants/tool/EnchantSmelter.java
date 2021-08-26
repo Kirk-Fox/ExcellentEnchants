@@ -79,8 +79,23 @@ public class EnchantSmelter extends IEnchantChanceTemplate implements BlockEncha
 
     @Override
     @NotNull
-    public List<ItemStack> getCustomDrops(@NotNull Block block, int level) {
-        return Collections.singletonList(new ItemStack(this.smeltingTable.get(block.getType())));
+    public List<ItemStack> getCustomDrops(@NotNull Player player, @NotNull ItemStack item, @NotNull Block block, int level) {
+        List<ItemStack> drops = plugin.getNMS().getBlockDrops(block, player, item);
+        return this.smelt(drops);
+    }
+
+    @NotNull
+    public List<ItemStack> smelt(@NotNull List<ItemStack> drops) {
+        return drops.stream().peek(drop -> {
+            Material material = this.smeltingTable.get(drop.getType());
+            if (material != null) drop.setType(material);
+        }).toList();
+    }
+
+    public void playEffect(@NotNull Block block) {
+        Location location = LocUT.getCenter(block.getLocation(), true);
+        MsgUT.sound(location, this.sound);
+        EffectUT.playEffect(location, this.particle, 0.2f, 0.2f, 0.2f, 0.05f, 30);
     }
 
     @Override
@@ -96,14 +111,17 @@ public class EnchantSmelter extends IEnchantChanceTemplate implements BlockEncha
         if (this.isEventMustHaveDrops() && !e.isDropItems()) return false;
         if (!this.checkTriggerChance(level)) return false;
 
+        List<ItemStack> defaults = plugin.getNMS().getBlockDrops(block, player, item);
+        List<ItemStack> custom = this.getCustomDrops(player, item, block, level);
+        if (custom.isEmpty() || custom.containsAll(defaults)) return false;
+
         e.setDropItems(false);
 
         World world = block.getWorld();
         Location location = LocUT.getCenter(block.getLocation(), true);
 
-        this.getCustomDrops(block, level).forEach(itemSmelt -> world.dropItem(location, itemSmelt));
-        MsgUT.sound(location, this.sound);
-        EffectUT.playEffect(location, this.particle, 0.2f, 0.2f, 0.2f, 0.05f, 30);
+        custom.forEach(itemSmelt -> world.dropItem(location, itemSmelt));
+        this.playEffect(block);
         return true;
     }
 }

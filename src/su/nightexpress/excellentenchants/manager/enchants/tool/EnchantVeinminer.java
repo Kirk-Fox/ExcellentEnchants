@@ -85,6 +85,7 @@ public class EnchantVeinminer extends ExcellentEnchant implements BlockEnchant {
 
             ore.setMetadata(META_ORE_MINED, new FixedMetadataValue(plugin, true));
             plugin.getNMS().breakBlock(player, ore);
+            ore.removeMetadata(META_ORE_MINED, plugin);
         });
     }
 
