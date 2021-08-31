@@ -2,6 +2,7 @@ package su.nightexpress.excellentenchants.manager.enchants.tool;
 
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.block.Container;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.entity.Player;
@@ -80,6 +81,8 @@ public class EnchantSmelter extends IEnchantChanceTemplate implements BlockEncha
     @Override
     @NotNull
     public List<ItemStack> getCustomDrops(@NotNull Player player, @NotNull ItemStack item, @NotNull Block block, int level) {
+        if (block.getState() instanceof Container) return Collections.emptyList();
+
         List<ItemStack> drops = plugin.getNMS().getBlockDrops(block, player, item);
         return this.smelt(drops);
     }

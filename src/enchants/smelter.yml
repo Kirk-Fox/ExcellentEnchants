@@ -19,5 +19,8 @@ Settings:
   Trigger_Chance: '25.0 + %enchantment_level% * 10'
   Smelting_Table:
     IRON_ORE: IRON_INGOT
+    RAW_IRON: IRON_INGOT
     GOLD_ORE: GOLD_INGOT
+    RAW_GOLD: GOLD_INGOT
+    RAW_COPPER: COPPER_INGOT
     SAND: GLASS
