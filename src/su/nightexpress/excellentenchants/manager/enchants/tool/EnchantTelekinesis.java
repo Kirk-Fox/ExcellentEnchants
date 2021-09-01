@@ -1,6 +1,7 @@
 package su.nightexpress.excellentenchants.manager.enchants.tool;
 
 import org.bukkit.block.Block;
+import org.bukkit.block.Container;
 import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -56,12 +57,13 @@ public class EnchantTelekinesis extends IEnchantChanceTemplate implements BlockE
 
     @Override
     public @NotNull UnaryOperator<String> replacePlaceholders(int level) {
-        return /*str -> */super.replacePlaceholders(level);//.apply(str.replace("%radius%", NumberUT.format(this.radHorizon.getValue(level))));
+        return super.replacePlaceholders(level);
     }
 
     @Override
     public boolean use(@NotNull BlockBreakEvent e, @NotNull Player player, @NotNull ItemStack item, int level) {
-        //if (!e.isDropItems()) return false;
+        if (e.getBlock().getState() instanceof Container) return false;
+        if (!e.isDropItems()) return false;
         if (!this.checkTriggerChance(level)) return false;
 
         Block block = e.getBlock();
