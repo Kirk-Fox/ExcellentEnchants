@@ -9,6 +9,7 @@ import org.bukkit.block.data.Ageable;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
@@ -22,6 +23,7 @@ import su.nightexpress.excellentenchants.api.enchantment.EnchantPriority;
 import su.nightexpress.excellentenchants.api.enchantment.IEnchantChanceTemplate;
 import su.nightexpress.excellentenchants.api.enchantment.type.BlockEnchant;
 import su.nightexpress.excellentenchants.api.enchantment.type.InteractEnchant;
+import su.nightexpress.excellentenchants.manager.EnchantRegister;
 
 import java.util.Set;
 
@@ -33,7 +35,7 @@ public class EnchantReplanter extends IEnchantChanceTemplate implements Interact
     private static final Set<Material> CROPS = Sets.newHashSet(Material.WHEAT_SEEDS, Material.BEETROOT_SEEDS, Material.MELON_SEEDS, Material.PUMPKIN_SEEDS, Material.POTATO, Material.CARROT);
 
     public EnchantReplanter(@NotNull ExcellentEnchants plugin, @NotNull JYML cfg) {
-        super(plugin, cfg, EnchantPriority.MEDIUM);
+        super(plugin, cfg, EnchantPriority.HIGHEST);
 
         this.replantOnRightClick = cfg.getBoolean("Settings.Replant.On_Right_Click");
         this.replantOnPlantBreak = cfg.getBoolean("Settings.Replant.On_Plant_Break");
@@ -60,6 +62,7 @@ public class EnchantReplanter extends IEnchantChanceTemplate implements Interact
 
         // Check for a event hand. We dont want to trigger it twice.
         if (e.getHand() != EquipmentSlot.HAND) return false;
+        if (e.getAction() != Action.RIGHT_CLICK_BLOCK) return false;
 
         // Check if player holds seeds to plant them by offhand interaction.
         ItemStack off = player.getInventory().getItemInOffHand();
@@ -91,6 +94,7 @@ public class EnchantReplanter extends IEnchantChanceTemplate implements Interact
     @Override
     public boolean use(@NotNull BlockBreakEvent e, @NotNull Player player, @NotNull ItemStack item, int level) {
         if (!this.replantOnPlantBreak) return false;
+        if (EnchantRegister.TELEKINESIS != null && item.containsEnchantment(EnchantRegister.TELEKINESIS)) return false;
 
         // Check if broken block is supported crop(s).
         Block blockPlant = e.getBlock();
