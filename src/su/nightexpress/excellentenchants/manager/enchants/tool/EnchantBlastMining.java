@@ -43,6 +43,7 @@ public class EnchantBlastMining extends IEnchantChanceTemplate implements BlockE
         this.addConflict(EnchantRegister.SMELTER);
         this.addConflict(Enchantment.SILK_TOUCH);
         this.addConflict(EnchantRegister.TUNNEL);
+        this.addConflict(EnchantRegister.VEINMINER);
     }
 
     @Override

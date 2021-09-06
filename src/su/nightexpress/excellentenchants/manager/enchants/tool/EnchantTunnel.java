@@ -19,6 +19,7 @@ import su.nightexpress.excellentenchants.api.enchantment.EnchantPriority;
 import su.nightexpress.excellentenchants.api.enchantment.IEnchantChanceTemplate;
 import su.nightexpress.excellentenchants.api.enchantment.type.BlockEnchant;
 import su.nightexpress.excellentenchants.hooks.HookNCP;
+import su.nightexpress.excellentenchants.manager.EnchantRegister;
 
 public class EnchantTunnel extends IEnchantChanceTemplate implements BlockEnchant {
 
@@ -43,6 +44,14 @@ public class EnchantTunnel extends IEnchantChanceTemplate implements BlockEnchan
             cfg.set("Settings.Ignore_When_Sneaking", b1);
             cfg.set("settings.disable-on-sneak", null);
         }
+    }
+
+    @Override
+    protected void addConflicts() {
+        super.addConflicts();
+        this.addConflict(EnchantRegister.VEINMINER);
+        this.addConflict(EnchantRegister.BLAST_MINING);
+
     }
 
     @Override
