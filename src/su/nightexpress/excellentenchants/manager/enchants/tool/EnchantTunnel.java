@@ -80,7 +80,8 @@ public class EnchantTunnel extends IEnchantChanceTemplate implements BlockEnchan
         Block block = e.getBlock();
 
         // Redstone ore seems to be 'interactable'.
-        if (block.getType().isInteractable() && block.getType() != Material.REDSTONE_ORE) return false;
+        if (block.getType().isInteractable() && block.getType() != Material.REDSTONE_ORE &&
+                block.getType() != Material.getMaterial("DEEPSLATE_REDSTONE_ORE")) return false;
         if (block.getDrops(item).isEmpty()) return false;
 
         boolean isY = dir != null && block.getRelative(dir.getOppositeFace()).isEmpty();
@@ -119,7 +120,8 @@ public class EnchantTunnel extends IEnchantChanceTemplate implements BlockEnchan
             if (blockAdd.isLiquid()) continue;
 
             Material addType = blockAdd.getType();
-            if (addType.isInteractable() && addType != Material.REDSTONE_ORE) continue;
+            if (addType.isInteractable() && addType != Material.REDSTONE_ORE &&
+                    addType != Material.getMaterial("DEEPSLATE_REDSTONE_ORE")) continue;
             if (addType == Material.BEDROCK || addType == Material.END_PORTAL || addType == Material.END_PORTAL_FRAME) continue;
             if (addType == Material.OBSIDIAN && addType != block.getType()) continue;
 
